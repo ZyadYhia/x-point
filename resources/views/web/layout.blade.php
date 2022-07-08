@@ -67,7 +67,7 @@
                         </ul>
                     </li>
                     <li><a href="contact.html">Contact</a></li>
-                    <li><a href="login.html">Sign In</a></li>
+                    <li><a href="{{url('login')}}">Sign In</a></li>
                     <li><a href="register.html">Sign Up</a></li>
                 </ul>
             </nav>

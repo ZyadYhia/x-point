@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('last_name');
             $table->string('user_name')->uniqid();
             $table->integer('points');
+            $table->foreignId('role_id')->constrained();
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');

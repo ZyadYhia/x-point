@@ -31,6 +31,7 @@
 </head>
 
 <body>
+    <form style="display: none;" id="logout-form" action="{{ url('logout') }}" method="post">@csrf</form>
 
     <!-- Header -->
     <header id="header">
@@ -67,8 +68,20 @@
                         </ul>
                     </li>
                     <li><a href="contact.html">Contact</a></li>
-                    <li><a href="{{url('login')}}">Sign In</a></li>
-                    <li><a href="register.html">Sign Up</a></li>
+                    {{-- @auth
+                        <li><a href="{{ url('login') }}">Sign In</a></li>
+                        <li><a href="{{ url('register') }}">Sign Up</a></li>
+                    @endauth --}}
+                    @guest
+                        <li><a href="{{ url('login') }}">{{ __('web.signin') }}</a></li>
+                        <li><a href="{{ url('register') }}">{{ __('web.signup') }}</a></li>
+                    @endguest
+                    @auth
+                        @if (Auth::user()->role->name == 'client')
+                            <li><a href="{{ url('dashboard') }}">{{ __('web.dashboard') }}</a></li>
+                        @endif
+                        <li><a id="logout-link" href="{{ url('logout') }}">{{ __('web.signout') }}</a></li>
+                    @endauth
                 </ul>
             </nav>
             <!-- /Navigation -->
@@ -153,6 +166,12 @@
     </div>
     <!-- /preloader -->
 
+    <script>
+        $("#logout-link").click(function(e) {
+            e.preventDefault();
+            $("#logout-form").submit();
+        });
+    </script>
 
     <!-- jQuery Plugins -->
     <script type="text/javascript" src="{{ asset('web/js/jquery.min.js') }}"></script>

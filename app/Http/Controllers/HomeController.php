@@ -10,4 +10,8 @@ class HomeController extends Controller
     {
         return view('web.home.index');
     }
+    public function contact()
+    {
+    return  ;
+    }
 }

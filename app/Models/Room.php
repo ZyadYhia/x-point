@@ -14,7 +14,7 @@ class Room extends Model
         'updated_at'
     ];
 
-    public function rooom_type()
+    public function room_type()
     {
         return $this->belongsTo(RoomType::class);
     }

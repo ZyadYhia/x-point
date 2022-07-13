@@ -14,13 +14,14 @@ class RoomController extends Controller
     public function index(Room $room)
     {
         $data['room'] = $room;
+        $data['room_type'] = $room->room_type->name;
         return view('Client.Room.index')->with($data);
     }
     public function open(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'username' => 'nullable|exists:users,user_name',
-            'email' => 'nullable|exists:users,email',
+            'username' => 'required',
+            // 'email' => 'nullable|exists:users,email',
             'room' => 'required|exists:rooms,name'
         ]);
         if ($validator->failed()) {
@@ -31,7 +32,9 @@ class RoomController extends Controller
         } else if ($request->email) {
             $user = User::where('user_name', $request->username)->first();
         }
-
+        if (!$user) {
+            return back();
+        }
         if (!Hash::check($request->password, $user->password)) {
             return back();
         }
@@ -41,14 +44,19 @@ class RoomController extends Controller
             $room->opened_at = now();
             $room->save();
             $room->users()->attach($user->id);
+            if ($room->room_type->name == 'Room PS' or $room->room_type->name == 'Open PS') {
+                $room->users()->updateExistingPivot($user->id, [
+                    'players' => $request->players,
+                ]);
+            }
         }
         return redirect('dashboard');
     }
     public function close(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'username' => 'nullable|exists:users,user_name',
-            'email' => 'nullable|exists:users,email',
+            'username' => 'required',
+            // 'email' => 'nullable|exists:users,email',
             'room' => 'required|exists:rooms,name'
         ]);
         if ($validator->failed()) {
@@ -59,7 +67,9 @@ class RoomController extends Controller
         } else if ($request->email) {
             $user = User::where('user_name', $request->username)->first();
         }
-
+        if (!$user) {
+            return back();
+        }
         if (!Hash::check($request->password, $user->password)) {
             return back();
         }

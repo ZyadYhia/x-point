@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Contact;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -12,6 +13,7 @@ class HomeController extends Controller
     }
     public function contact()
     {
-        return view('web.Contacts.index');
+        $data['contact'] = Contact::first();
+        return view('web.Contacts.index')->with($data);
     }
 }

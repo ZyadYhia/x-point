@@ -12,6 +12,6 @@ class HomeController extends Controller
     }
     public function contact()
     {
-    return  ;
+        return view('web.Contacts.index');
     }
 }

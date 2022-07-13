@@ -1,4 +1,7 @@
 @extends('Client.layout')
+@section('title')
+    Rooms
+@endsection
 @section('main')
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
@@ -29,7 +32,7 @@
 
                         <div class="card">
                             <div class="card-header">
-                                <h3 class="card-title">{{$room->name}}</h3>
+                                <h3 class="card-title">{{ $room->name }}</h3>
                                 <div class="card-tools">
                                     <button type="button" class="btn btn-tool" data-card-widget="collapse"
                                         title="Collapse">
@@ -47,11 +50,13 @@
                                                     class="small-box @if ($room->status == 'available') bg-success @else bg-danger @endif">
                                                     <div class="inner">
                                                         <h3>{{ $room->name }}</h3>
+                                                        <p>Status: <strong>{{ $room->status }}</strong> </p>
                                                     </div>
                                                     <div class="icon">
                                                         <i class="fab fa-playstation"></i>
                                                     </div>
-                                                    <a href="#" class="small-box-footer">
+                                                    <a href="{{ url("dashboard/room/$room->id") }}"
+                                                        class="small-box-footer">
                                                         More info <i class="fas fa-arrow-circle-right"></i>
                                                     </a>
                                                 </div>
@@ -93,11 +98,13 @@
                                                     class="small-box @if ($open->status == 'available') bg-success @else bg-danger @endif">
                                                     <div class="inner">
                                                         <h3>{{ $open->name }}</h3>
+                                                        <p>Status: <strong>{{ $open->status }}</strong> </p>
                                                     </div>
                                                     <div class="icon">
                                                         <i class="fab fa-playstation"></i>
                                                     </div>
-                                                    <a href="#" class="small-box-footer">
+                                                    <a href="{{ url("dashboard/room/$open->id") }}"
+                                                        class="small-box-footer">
                                                         More info <i class="fas fa-arrow-circle-right"></i>
                                                     </a>
                                                 </div>
@@ -139,11 +146,13 @@
                                                     class="small-box @if ($air_hocky->status == 'available') bg-success @else bg-danger @endif">
                                                     <div class="inner">
                                                         <h3>{{ $air_hocky->name }}</h3>
+                                                        <p>Status: <strong>{{ $air_hocky->status }}</strong> </p>
                                                     </div>
                                                     <div class="icon">
                                                         <i class="fal fa-ring"></i>
                                                     </div>
-                                                    <a href="#" class="small-box-footer">
+                                                    <a href="{{ url("dashboard/room/$air_hocky->id") }}"
+                                                        class="small-box-footer">
                                                         More info <i class="fas fa-arrow-circle-right"></i>
                                                     </a>
                                                 </div>
@@ -185,11 +194,13 @@
                                                     class="small-box @if ($pool->status == 'available') bg-success @else bg-danger @endif">
                                                     <div class="inner">
                                                         <h3>{{ $pool->name }}</h3>
+                                                        <p>Status: <strong>{{ $pool->status }}</strong> </p>
                                                     </div>
                                                     <div class="icon">
                                                         <i class="fab fa-playstation"></i>
                                                     </div>
-                                                    <a href="#" class="small-box-footer">
+                                                    <a href="{{ url("dashboard/room/$pool->id") }}"
+                                                        class="small-box-footer">
                                                         More info <i class="fas fa-arrow-circle-right"></i>
                                                     </a>
                                                 </div>
@@ -208,5 +219,6 @@
         </div>
         <!-- /.content -->
     </div>
-    <!-- /.content-wrapper -->s
+    <!-- /.content-wrapper -->
+
 @endsection

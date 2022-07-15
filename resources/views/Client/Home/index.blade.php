@@ -31,7 +31,7 @@
                     <div class="col-12">
 
                         <div class="card">
-                            <div class="card-header">
+                            <div class="card-header bg-info">
                                 <h3 class="card-title">{{ $room->name }}</h3>
                                 <div class="card-tools">
                                     <button type="button" class="btn btn-tool" data-card-widget="collapse"
@@ -79,7 +79,7 @@
                     <div class="col-12">
 
                         <div class="card">
-                            <div class="card-header">
+                            <div class="card-header bg-info">
                                 <h3 class="card-title">{{ $open->name }}</h3>
                                 <div class="card-tools">
                                     <button type="button" class="btn btn-tool" data-card-widget="collapse"
@@ -127,7 +127,7 @@
                     <div class="col-12">
 
                         <div class="card">
-                            <div class="card-header">
+                            <div class="card-header bg-info">
                                 <h3 class="card-title">{{ $air->name }}</h3>
                                 <div class="card-tools">
                                     <button type="button" class="btn btn-tool" data-card-widget="collapse"
@@ -175,7 +175,7 @@
                     <div class="col-12">
 
                         <div class="card">
-                            <div class="card-header">
+                            <div class="card-header bg-info">
                                 <h3 class="card-title">{{ $pool->name }}</h3>
                                 <div class="card-tools">
                                     <button type="button" class="btn btn-tool" data-card-widget="collapse"

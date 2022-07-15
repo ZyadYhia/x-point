@@ -13,11 +13,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <title>X-POINTS: @yield('title')</title>
 
     <!-- Font Awesome Icons -->
-    <link rel="stylesheet" href=" {{ asset('adminlte/css/fontawesome.all.css')}}">
+    <link rel="stylesheet" href=" {{ asset('adminlte/css/fontawesome.all.css') }}">
     <!-- Theme style -->
-    <link rel="stylesheet" href=" {{ asset('adminlte/css/adminlte.css')}}">
+    <link rel="stylesheet" href=" {{ asset('adminlte/css/adminlte.css') }}">
     <!-- Google Font: Source Sans Pro -->
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+    {{-- SweetAlert2 --}}
+    <link rel="stylesheet" href="{{ asset('node-modules/sweetalert2/sweetalert2.min.css') }}">
+    @yield('styles')
 </head>
 
 <body class="hold-transition sidebar-mini">
@@ -50,10 +53,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <!-- Sidebar user panel (optional) -->
                 <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                     <div class="image">
-                        <img src=" {{ asset('adminlte/img/user-profile.jpg')}}" class="img-circle elevation-2" alt="User Image">
+                        <img src=" {{ asset('adminlte/img/user-profile.jpg') }}" class="img-circle elevation-2"
+                            alt="User Image">
                     </div>
                     <div class="info">
-                        <a href="#" class="d-block">{{ Auth::user()->first_name . ' ' . Auth::user()->last_name }}</a>
+                        <a href="#"
+                            class="d-block">{{ Auth::user()->first_name . ' ' . Auth::user()->last_name }}</a>
                     </div>
                 </div>
 
@@ -100,7 +105,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </div>
             <!-- /.sidebar -->
         </aside>
-
+        @include('Client.includes.messages')
+        @include('Client.includes.errors')
+        {{-- <button type="button" onclick="cli()" class="btn btn-success swalDefaultSuccess">
+            Launch Success Toast
+        </button> --}}
         @yield('main')
 
         <!-- Control Sidebar -->
@@ -129,11 +138,48 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- REQUIRED SCRIPTS -->
 
     <!-- jQuery -->
-    <script src=" {{ asset('adminlte/js/jquery.js')}}"></script>
+    <script src=" {{ asset('adminlte/js/jquery.js') }}"></script>
     <!-- Bootstrap 4 -->
-    <script src=" {{ asset('adminlte/js/bootstrap.bundle.js')}}"></script>
+    <script src=" {{ asset('adminlte/js/bootstrap.bundle.js') }}"></script>
     <!-- AdminLTE App -->
-    <script src=" {{ asset('adminlte/js/adminlte.js')}}"></script>
+    <script src=" {{ asset('adminlte/js/adminlte.js') }}"></script>
+    {{-- SweetAlert2 --}}
+    <script src="{{ asset('node-modules/sweetalert2/sweetalert2.all.min.js') }}"></script>
+    <script>
+        var Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+        });
+
+        function cli() {
+            Toast.fire({
+                icon: 'success',
+                title: 'lllllsss'
+            })
+        }
+        if (document.getElementById('session_msg')) {
+            Toast.fire({
+                icon: 'success',
+                title: document.getElementById('session_msg').value
+            });
+            successEffect();
+        }
+        if (document.getElementById('session_error')) {
+            Toast.fire({
+                icon: 'error',
+                title: document.getElementById('session_error').value
+            });
+            errorEffect();
+        }
+    </script>
+    @yield('scripts')
 </body>
 
 </html>

@@ -77,9 +77,9 @@
                         <li><a href="{{ url('register') }}">{{ __('web.signup') }}</a></li>
                     @endguest
                     @auth
-                        @if (Auth::user()->role->name == 'client')
+                        {{-- @if (Auth::user()->role->name == 'client') --}}
                             <li><a href="{{ url('dashboard') }}">{{ __('web.dashboard') }}</a></li>
-                        @endif
+                        {{-- @endif --}}
                         <li><a id="logout-link" href="{{ url('logout') }}">{{ __('web.signout') }}</a></li>
                     @endauth
                 </ul>

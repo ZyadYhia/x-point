@@ -7,6 +7,7 @@ use App\Models\Room;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 
 class RoomController extends Controller
@@ -25,7 +26,8 @@ class RoomController extends Controller
             'room' => 'required|exists:rooms,name'
         ]);
         if ($validator->failed()) {
-            return back();
+            Session::flash('error', 'Validations Error');
+            return back()->withErrors($validator->errors());
         }
         if ($request->username) {
             $user = User::where('user_name', $request->username)->first();
@@ -33,9 +35,11 @@ class RoomController extends Controller
             $user = User::where('user_name', $request->username)->first();
         }
         if (!$user) {
+            Session::flash('error', 'User Not Found');
             return back();
         }
         if (!Hash::check($request->password, $user->password)) {
+            Session::flash('error', 'Password incorrect');
             return back();
         }
         $room = Room::where('id', $request->room)->first();
@@ -50,6 +54,7 @@ class RoomController extends Controller
                 ]);
             }
         }
+        Session::flash('msg', 'Room Opend Successfuly');
         return redirect('dashboard');
     }
     public function close(Request $request)
@@ -81,6 +86,10 @@ class RoomController extends Controller
                 $room->opened_at = null;
                 $room->save();
                 $room->users()->detach();
+                Session::flash('msg', 'Room Closed Successfuly');
+            }
+            else {
+                Session::flash('error', 'Wrong Opening User');
             }
         }
         return redirect('dashboard');

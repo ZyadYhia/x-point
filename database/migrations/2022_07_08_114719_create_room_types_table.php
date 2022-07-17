@@ -16,8 +16,9 @@ return new class extends Migration
         Schema::create('room_types', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->tinyInteger('cost_per_hour')->nullable();
-            $table->tinyInteger('cost_per_game')->nullable();
+            $table->enum('type', ['hour', 'game'])->default('hour');
+            // $table->tinyInteger('cost_per_hour')->nullable();
+            // $table->tinyInteger('cost_per_game')->nullable();
             $table->timestamps();
         });
     }

@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\Web\Client;
 
-use App\Http\Controllers\Controller;
+use Carbon\Carbon;
 use App\Models\Room;
 use App\Models\User;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
@@ -16,7 +17,7 @@ class RoomController extends Controller
     {
         $data['room'] = $room;
         $data['room_type'] = $room->room_type->name;
-        return view('Client.Room.index')->with($data);
+        return view('dashboard.Room.index')->with($data);
     }
     public function open(Request $request)
     {
@@ -55,7 +56,7 @@ class RoomController extends Controller
             }
         }
         Session::flash('msg', 'Room Opend Successfuly');
-        return redirect('dashboard');
+        return redirect(url('dashboard'));
     }
     public function close(Request $request)
     {
@@ -82,16 +83,38 @@ class RoomController extends Controller
         if ($room->status == 'busy') {
             $pivotRow = $room->users()->where('user_id', $user->id)->first();
             if ($pivotRow && $room->users[0]->id == $user->id) {
+                if ($pivotRow->pivot->players == 'single') {
+                    $points = $this->calculate_points($room->opened_at, $room->cost, $room->discount);
+                    // dd($room->opened_at, $room->cost, $points);
+                } else {
+                    $points = $this->calculate_points($room->opened_at, $room->cost, $room->discount, 1);
+                    // dd($room->opened_at, $room->cost, $points);
+                }
+                $user->points = $user->points + $points;
                 $room->status = 'available';
                 $room->opened_at = null;
+                $user->save();
                 $room->save();
                 $room->users()->detach();
                 Session::flash('msg', 'Room Closed Successfuly');
-            }
-            else {
+            } else {
                 Session::flash('error', 'Wrong Opening User');
             }
         }
-        return redirect('dashboard');
+        return redirect(url('dashboard'));
+    }
+
+    public function calculate_points($opened_at, $cost, $discount, $multiple = 0)
+    {
+        // calculate difference in minutes
+        // multiple by cost of time
+        // multiple by single or multi
+        $time_now = Carbon::now();
+        $time_mins = $time_now->diffInMinutes($opened_at);
+        $equation = ($cost / 60) * $time_mins;
+        $total_cost = (!$multiple) ? $equation : $equation * 1.5;
+        $new_points = $total_cost * ($discount/100);
+        // dd($time_now, $time_mins, $equation, $multiple, $total_cost, $new_points);
+        return $new_points;
     }
 }

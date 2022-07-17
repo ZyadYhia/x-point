@@ -17,49 +17,69 @@ class RoomSeeder extends Seeder
     public function run()
     {
         $airhocky = RoomType::where('name', 'Air Hocky')->first();
-        $Pool = RoomType::where('name', 'Pool')->first();
+        $Billiard = RoomType::where('name', 'Billiard')->first();
         $Open_PS = RoomType::where('name', 'Open PS')->first();
         $Room_PS = RoomType::where('name', 'Room PS')->first();
 
         Room::create([
-            'name' => 'Air Hocky 1',
-            'room_type_id' => $airhocky->id,
+            'name' => 'Cinema Room',
+            'room_type_id' => $Room_PS->id,
+            'cost' => 50,
+            'discount' => 10,
         ]);
         Room::create([
-            'name' => 'Air Hocky 2',
-            'room_type_id' => $airhocky->id,
+            'name' => 'VIP Room',
+            'room_type_id' => $Room_PS->id,
+            'cost' => 40,
+            'discount' => 10,
         ]);
         Room::create([
-            'name' => 'Pool',
-            'room_type_id' => $Pool->id,
+            'name' => 'X 1',
+            'room_type_id' => $Room_PS->id,
+            'cost' => 30,
+            'discount' => 10,
         ]);
         Room::create([
-            'name' => 'Open 1',
+            'name' => 'X 2',
+            'room_type_id' => $Room_PS->id,
+            'cost' => 30,
+            'discount' => 10,
+        ]);
+        Room::create([
+            'name' => 'X 3',
+            'room_type_id' => $Room_PS->id,
+            'cost' => 30,
+            'discount' => 10,
+        ]);
+        Room::create([
+            'name' => 'O 1',
             'room_type_id' => $Open_PS->id,
+            'cost' => 25,
+            'discount' => 10,
         ]);
         Room::create([
-            'name' => 'Open 2',
+            'name' => 'O 2',
             'room_type_id' => $Open_PS->id,
+            'cost' => 25,
+            'discount' => 10,
         ]);
         Room::create([
-            'name' => 'Room 1',
-            'room_type_id' => $Room_PS->id,
+            'name' => 'O 3',
+            'room_type_id' => $Open_PS->id,
+            'cost' => 25,
+            'discount' => 10,
         ]);
         Room::create([
-            'name' => 'Room 2',
-            'room_type_id' => $Room_PS->id,
+            'name' => 'Air Hockey',
+            'room_type_id' => $airhocky->id,
+            'cost' => 60,
+            'discount' => 10,
         ]);
         Room::create([
-            'name' => 'Room 3',
-            'room_type_id' => $Room_PS->id,
-        ]);
-        Room::create([
-            'name' => 'Room 4',
-            'room_type_id' => $Room_PS->id,
-        ]);
-        Room::create([
-            'name' => 'Room 5',
-            'room_type_id' => $Room_PS->id,
+            'name' => 'Billiard',
+            'room_type_id' => $Billiard->id,
+            'cost' => 50,
+            'discount' => 10,
         ]);
     }
 }

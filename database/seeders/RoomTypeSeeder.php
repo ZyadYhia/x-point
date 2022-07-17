@@ -16,20 +16,32 @@ class RoomTypeSeeder extends Seeder
     public function run()
     {
         RoomType::create([
-            'name' => 'Air Hocky',
-            'cost_per_game' => 10,
-        ]);
-        RoomType::create([
-            'name' => 'Pool',
-            'cost_per_hour' => 15,
+            'name' => 'Room PS',
         ]);
         RoomType::create([
             'name' => 'Open PS',
-            'cost_per_hour' => 15,
         ]);
         RoomType::create([
-            'name' => 'Room PS',
-            'cost_per_hour' => 20,
+            'name' => 'Air Hocky',
         ]);
+        RoomType::create([
+            'name' => 'Billiard',
+        ]);
+        // RoomType::create([
+        //     'name' => 'Air Hocky',
+        //     'cost_per_game' => 10,
+        // ]);
+        // RoomType::create([
+        //     'name' => 'Pool',
+        //     'cost_per_hour' => 15,
+        // ]);
+        // RoomType::create([
+        //     'name' => 'Open PS',
+        //     'cost_per_hour' => 15,
+        // ]);
+        // RoomType::create([
+        //     'name' => 'Room PS',
+        //     'cost_per_hour' => 20,
+        // ]);
     }
 }

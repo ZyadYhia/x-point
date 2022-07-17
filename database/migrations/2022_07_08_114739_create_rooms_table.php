@@ -16,6 +16,8 @@ return new class extends Migration
         Schema::create('rooms', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->tinyInteger('cost');
+            $table->tinyInteger('discount');
             $table->foreignId('room_type_id')->constrained();
             $table->enum('status', ['available', 'busy'])->default('available');
             $table->timestamp('opened_at')->nullable();

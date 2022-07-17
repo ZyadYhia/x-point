@@ -16,7 +16,8 @@ class ContactSeeder extends Seeder
     public function run()
     {
         Contact::create([
-            'mobile' => '01010053638',
+            'mobile' => '01555048058',
+            'VF_Cash' => '01010053638',
             'email' => 'contact@x-points.com',
             'fb' => 'https://www.facebook.com/profile.php?id=100000730460125',
             'twitter' => '',

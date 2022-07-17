@@ -1,4 +1,4 @@
-@extends('Client.layout')
+@extends('dashboard.layout')
 @section('title')
     Rooms
 @endsection
@@ -44,13 +44,21 @@
                                 <div class="container-fluid">
                                     <div class="row justify-content-center">
                                         @foreach ($rooms as $room)
-                                            <div class="col-lg-4 col-6">
+                                            <div class="col-lg-4 col-md-6">
 
                                                 <div
                                                     class="small-box @if ($room->status == 'available') bg-success @else bg-danger @endif">
+                                                    @if ($room->discount and $room->discount !== 0)
+                                                        <div class="ribbon-wrapper ribbon-lg">
+                                                            <div class="ribbon bg-warning text-lg">
+                                                                {{ $room->discount }}% POINTS
+                                                            </div>
+                                                        </div>
+                                                    @endif
                                                     <div class="inner">
                                                         <h3>{{ $room->name }}</h3>
                                                         <p>Status: <strong>{{ $room->status }}</strong> </p>
+                                                        <p>Cost: <strong>{{ $room->cost }} </strong>LE/h </p>
                                                     </div>
                                                     <div class="icon">
                                                         <i class="fab fa-playstation"></i>
@@ -92,13 +100,21 @@
                                 <div class="container-fluid">
                                     <div class="row justify-content-center">
                                         @foreach ($opens as $open)
-                                            <div class="col-lg-4 col-6">
+                                            <div class="col-lg-4 col-md-6">
 
                                                 <div
                                                     class="small-box @if ($open->status == 'available') bg-success @else bg-danger @endif">
+                                                    @if ($open->discount and $open->discount !== 0)
+                                                        <div class="ribbon-wrapper ribbon-lg">
+                                                            <div class="ribbon bg-warning text-lg">
+                                                                {{ $open->discount }}% Points
+                                                            </div>
+                                                        </div>
+                                                    @endif
                                                     <div class="inner">
                                                         <h3>{{ $open->name }}</h3>
                                                         <p>Status: <strong>{{ $open->status }}</strong> </p>
+                                                        <p>Cost: <strong>{{ $open->cost }} </strong>LE/h </p>
                                                     </div>
                                                     <div class="icon">
                                                         <i class="fab fa-playstation"></i>
@@ -140,13 +156,21 @@
                                 <div class="container-fluid">
                                     <div class="row justify-content-center">
                                         @foreach ($air_hockies as $air_hocky)
-                                            <div class="col-lg-4 col-6">
+                                            <div class="col-lg-4 col-md-6">
 
                                                 <div
                                                     class="small-box @if ($air_hocky->status == 'available') bg-success @else bg-danger @endif">
+                                                    @if ($air_hocky->discount and $air_hocky->discount !== 0)
+                                                        <div class="ribbon-wrapper ribbon-lg">
+                                                            <div class="ribbon bg-warning text-lg">
+                                                                {{ $air_hocky->discount }}% POINTS
+                                                            </div>
+                                                        </div>
+                                                    @endif
                                                     <div class="inner">
                                                         <h3>{{ $air_hocky->name }}</h3>
                                                         <p>Status: <strong>{{ $air_hocky->status }}</strong> </p>
+                                                        <p>Cost: <strong>{{ $air_hocky->cost }} </strong>LE/h </p>
                                                     </div>
                                                     <div class="icon">
                                                         <i class="fal fa-ring"></i>
@@ -188,13 +212,21 @@
                                 <div class="container-fluid">
                                     <div class="row justify-content-center">
                                         @foreach ($pools as $pool)
-                                            <div class="col-lg-4 col-6">
+                                            <div class="col-lg-4 col-md-6">
 
                                                 <div
                                                     class="small-box @if ($pool->status == 'available') bg-success @else bg-danger @endif">
+                                                    @if ($pool->discount and $pool->discount !== 0)
+                                                        <div class="ribbon-wrapper ribbon-lg">
+                                                            <div class="ribbon bg-warning text-lg">
+                                                                {{ $pool->discount }}% POINTS
+                                                            </div>
+                                                        </div>
+                                                    @endif
                                                     <div class="inner">
                                                         <h3>{{ $pool->name }}</h3>
                                                         <p>Status: <strong>{{ $pool->status }}</strong> </p>
+                                                        <p>Cost: <strong>{{ $pool->cost }} </strong>LE/h </p>
                                                     </div>
                                                     <div class="icon">
                                                         <i class="fab fa-playstation"></i>
@@ -220,5 +252,4 @@
         <!-- /.content -->
     </div>
     <!-- /.content-wrapper -->
-
 @endsection

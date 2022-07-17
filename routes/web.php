@@ -24,8 +24,17 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [HomeController::class, 'index']);
 Route::get('contact', [HomeController::class, 'contact']);
 Route::prefix('dashboard')->middleware(['auth'])->group(function () {
+    Route::get('', [ClientHomeController::class, 'index'])->name('dashboard');
+    Route::prefix('/users')->group(function () {
+        Route::get('', [UserController::class, 'index'])->name('dashboard_users');
+        Route::get('promote/{id}', [UserController::class, 'promote']);
+        Route::get('demote/{id}', [UserController::class, 'demote']);
+        Route::get('delete/{user}', [UserController::class, 'delete']);
+        Route::get('remove-verification/{id}', [UserController::class, 'removeVerify']);
+        Route::get('apply-verification/{id}', [UserController::class, 'applyVerify']);
+        Route::post('add-user', [UserController::class, 'store'])->name('dashboard_add_users');
+    });
     Route::post('add-user', [UserController::class, 'store']);
-    Route::get('', [ClientHomeController::class, 'index']);
     Route::get('/room/{room}', [RoomController::class, 'index']);
     Route::prefix('/rooms')->group(function () {
         Route::post('open', [RoomController::class, 'open']);

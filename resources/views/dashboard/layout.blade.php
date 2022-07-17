@@ -68,7 +68,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         data-accordion="false">
                         <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-                        <li class="nav-item has-treeview menu-open">
+                        {{-- <li class="nav-item has-treeview menu-open">
                             <a href="#" class="nav-link active">
                                 <i class="nav-icon fas fa-tachometer-alt"></i>
                                 <p>
@@ -90,23 +90,35 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                     </a>
                                 </li>
                             </ul>
-                        </li>
+                        </li> --}}
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
+                            <a href="{{ url('dashboard') }}"
+                                class="nav-link @if (Route::is('dashboard')) active @else @endif">
                                 <i class="nav-icon fas fa-th"></i>
                                 <p>
-                                    Page three
+                                    Rooms
                                 </p>
                             </a>
                         </li>
+                        @if (Auth::user()->role->name == 'superadmin' or Auth::user()->role->name == 'admin')
+                            <li class="nav-item">
+                                <a href="{{ url('dashboard/users') }}"
+                                    class="nav-link @if (Route::is('dashboard_users')) active  @else @endif">
+                                    <i class="nav-icon fas fa-users"></i>
+                                    <p>
+                                        Users
+                                    </p>
+                                </a>
+                            </li>
+                        @endif
                     </ul>
                 </nav>
                 <!-- /.sidebar-menu -->
             </div>
             <!-- /.sidebar -->
         </aside>
-        @include('Client.includes.messages')
-        @include('Client.includes.errors')
+        @include('dashboard.includes.messages')
+        @include('dashboard.includes.errors')
         {{-- <button type="button" onclick="cli()" class="btn btn-success swalDefaultSuccess">
             Launch Success Toast
         </button> --}}
@@ -180,6 +192,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         }
     </script>
     @yield('scripts')
+    @include('popper::assets')
 </body>
 
 </html>

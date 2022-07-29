@@ -74,9 +74,11 @@ class RoomController extends Controller
             $user = User::where('user_name', $request->username)->first();
         }
         if (!$user) {
+            Session::flash('error', 'Username or Email Incorrect');
             return back();
         }
         if (!Hash::check($request->password, $user->password)) {
+            Session::flash('error', 'Password Incorrect');
             return back();
         }
         $room = Room::where('id', $request->room)->first();
@@ -84,37 +86,64 @@ class RoomController extends Controller
             $pivotRow = $room->users()->where('user_id', $user->id)->first();
             if ($pivotRow && $room->users[0]->id == $user->id) {
                 if ($pivotRow->pivot->players == 'single') {
-                    $points = $this->calculate_points($room->opened_at, $room->cost, $room->discount);
-                    // dd($room->opened_at, $room->cost, $points);
+                    $cost = $this->calc_cost($room->opened_at, $room->cost);
+                    // $points = $this->calculate_points($cost, $room->discount);
+                    // $points = $this->calculate_points($cost->opened_at, $room->cost, $room->discount);
                 } else {
-                    $points = $this->calculate_points($room->opened_at, $room->cost, $room->discount, 1);
-                    // dd($room->opened_at, $room->cost, $points);
+                    $cost = $this->calc_cost($room->opened_at, $room->cost, 1);
+                    // $points = $this->calculate_points($cost, $room->discount);
+                    // $points = $this->calculate_points($room->opened_at, $room->cost, $room->discount, 1);
                 }
+                $points = $this->calculate_points($cost, $room->discount);
+                $time_now = Carbon::now();
+                $time_mins = $time_now->diffInMinutes($room->opened_at);
                 $user->points = $user->points + $points;
                 $room->status = 'available';
                 $room->opened_at = null;
                 $user->save();
                 $room->save();
                 $room->users()->detach();
+                InvoiceController::store($user->id, $room, $cost);
                 Session::flash('msg', 'Room Closed Successfuly');
+                Session::flash('invoice', 'success');
             } else {
                 Session::flash('error', 'Wrong Opening User');
             }
         }
-        return redirect(url('dashboard'));
+
+        $data['room'] = $room->name;
+        $data['cost'] = $cost;
+        $data['time'] = $time_mins;
+        $data['room'] = $room;
+        $data['invoices'] = $user->invoices();
+        // dd($data['invoices']);
+        $data['room_type'] = $room->room_type->name;
+        return view('dashboard.Room.index')->with($data);
+        // dd($data);
+        // return back()->with($data);
+        // return redirect(url('dashboard'));
     }
 
-    public function calculate_points($opened_at, $cost, $discount, $multiple = 0)
+    // public function calculate_points($opened_at, $cost, $discount, $multiple = 0)
+    public function calculate_points($total_cost, $discount)
     {
         // calculate difference in minutes
         // multiple by cost of time
         // multiple by single or multi
+        // $time_now = Carbon::now();
+        // $time_mins = $time_now->diffInMinutes($opened_at);
+        // $equation = ($cost / 60) * $time_mins;
+        // $total_cost = (!$multiple) ? $equation : $equation * 1.5;
+        $new_points = $total_cost * ($discount / 100);
+        // dd($time_now, $time_mins, $equation, $multiple, $total_cost, $new_points);
+        return $new_points;
+    }
+    public function calc_cost($opened_at, $cost, $multiple = 0)
+    {
         $time_now = Carbon::now();
         $time_mins = $time_now->diffInMinutes($opened_at);
         $equation = ($cost / 60) * $time_mins;
         $total_cost = (!$multiple) ? $equation : $equation * 1.5;
-        $new_points = $total_cost * ($discount/100);
-        // dd($time_now, $time_mins, $equation, $multiple, $total_cost, $new_points);
-        return $new_points;
+        return $total_cost;
     }
 }

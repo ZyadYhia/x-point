@@ -85,13 +85,15 @@
                                                                 @endphp
                                                                 <td>{{ $mobile->name }}</td>
                                                                 <td>{{ $invoice->name }}</td>
-                                                                <td>{{ $invoice->created_at }}</td>
                                                                 @php
                                                                     $cost = 0;
+                                                                    $time = 0;
                                                                     foreach ($invoice->invoice_details as $detail) {
                                                                         $cost += $detail->cost;
+                                                                        $time += $detail->time;
                                                                     }
                                                                 @endphp
+                                                                <td>{{ $time }}</td>
                                                                 {{-- <td><span class="tag tag-success">{{ $invoice->invoice_details[0]->cost }}</span></td> --}}
                                                                 <td>{{ $cost }}</td>
                                                                 <td>{{ $invoice->status }}</td>
@@ -146,13 +148,15 @@
                                                                 @endphp
                                                                 <td>{{ $mobile->name }}</td>
                                                                 <td>{{ $invoice->name }}</td>
-                                                                <td>{{ $invoice->created_at }}</td>
                                                                 @php
                                                                     $cost = 0;
+                                                                    $time = 0;
                                                                     foreach ($invoice->invoice_details as $detail) {
                                                                         $cost += $detail->cost;
+                                                                        $time += $detail->time;
                                                                     }
                                                                 @endphp
+                                                                <td>{{ $time }}</td>
                                                                 {{-- <td><span class="tag tag-success">{{ $invoice->invoice_details[0]->cost }}</span></td> --}}
                                                                 <td>{{ $cost }}</td>
                                                                 <td>{{ $invoice->status }}</td>
@@ -203,13 +207,15 @@
                                                                 @endphp
                                                                 <td>{{ $mobile->name }}</td>
                                                                 <td>{{ $invoice->name }}</td>
-                                                                <td>{{ $invoice->created_at }}</td>
                                                                 @php
                                                                     $cost = 0;
+                                                                    $time = 0;
                                                                     foreach ($invoice->invoice_details as $detail) {
                                                                         $cost += $detail->cost;
+                                                                        $time += $detail->time;
                                                                     }
                                                                 @endphp
+                                                                <td>{{ $time }}</td>
                                                                 {{-- <td><span class="tag tag-success">{{ $invoice->invoice_details[0]->cost }}</span></td> --}}
                                                                 <td>{{ $cost }}</td>
                                                                 <td>{{ $invoice->status }}</td>

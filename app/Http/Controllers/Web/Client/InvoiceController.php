@@ -26,7 +26,7 @@ class InvoiceController extends Controller
         $user = $invoice->user;
         return;
     }
-    static public function store($user_id, $room, $cost)
+    static public function store($user_id, $room, $cost, $time)
     {
         $invoice = Invoice::create([
             'name' => $room->name,
@@ -36,6 +36,7 @@ class InvoiceController extends Controller
             'invoice_id' => $invoice->id,
             'room_id' => $room->id,
             'cost' => $cost,
+            'time' => $time,
         ]);
     }
     static public function show(Request $request)

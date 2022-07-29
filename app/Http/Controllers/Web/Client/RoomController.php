@@ -97,13 +97,15 @@ class RoomController extends Controller
                 $points = $this->calculate_points($cost, $room->discount);
                 $time_now = Carbon::now();
                 $time_mins = $time_now->diffInMinutes($room->opened_at);
-                $user->points = $user->points + $points;
+                if ($user->user_name !== 'counter') {
+                    $user->points = $user->points + $points;
+                }
                 $room->status = 'available';
                 $room->opened_at = null;
                 $user->save();
                 $room->save();
                 $room->users()->detach();
-                InvoiceController::store($user->id, $room, $cost);
+                InvoiceController::store($user->id, $room, $cost, $time_mins);
                 Session::flash('msg', 'Room Closed Successfuly');
                 Session::flash('invoice', 'success');
             } else {

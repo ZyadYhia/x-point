@@ -19,10 +19,10 @@ class ContactSeeder extends Seeder
             'mobile' => '01555048058',
             'VF_Cash' => '01010053638',
             'email' => 'contact@x-points.com',
-            'fb' => 'https://www.facebook.com/profile.php?id=100000730460125',
-            'twitter' => '',
+            'fb' => 'https://www.facebook.com/X-point-104897912287633',
+            'linktr' => 'https://linktr.ee/xpoint_damietta',
             'youtube' => '',
-            'instagram' => 'https://www.instagram.com/yasserahmedsleem/?hl=en'
+            'instagram' => 'https://www.instagram.com/xpoint_damietta/'
         ]);
     }
 }

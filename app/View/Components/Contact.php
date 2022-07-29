@@ -24,7 +24,7 @@ class Contact extends Component
      */
     public function render()
     {
-        $data['settings']= ModelsContact::select('fb','twitter','youtube','instagram')->first();
+        $data['settings']= ModelsContact::select('fb','linktr','youtube','instagram')->first();
         return view('components.contact')->with($data);
     }
 }

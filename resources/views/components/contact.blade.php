@@ -4,8 +4,8 @@
             <li><a target="_blank" href="{{$settings->fb}}" class="facebook"><i class="fa fa-facebook"></i></a></li>
         @endif
 
-        @if ($settings->twitter !== null)
-            <li><a target="_blank" href="{{$settings->twitter}}" class="twitter"><i class="fa fa-twitter"></i></a></li>
+        @if ($settings->linktr !== null)
+            <li><a target="_blank" href="{{$settings->linktr}}" class="twitter"><i class="fa fa-linktr"></i></a></li>
         @endif
 
         @if ($settings->instagram !== null)

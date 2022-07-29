@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('VF_Cash');
             $table->string('email');
             $table->string('fb')->nullable();
-            $table->string('twitter')->nullable();
+            $table->string('linktr')->nullable();
             $table->string('youtube')->nullable();
             $table->string('instagram')->nullable();
             $table->timestamps();

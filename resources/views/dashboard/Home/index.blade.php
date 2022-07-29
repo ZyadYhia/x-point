@@ -89,7 +89,9 @@
                         <div class="card">
                             <div class="card-header bg-info">
                                 <h3 class="card-title">{{ $open->name }}</h3>
-                                <div class="card-tools">
+                                {{-- <input type="checkbox" name="my-checkbox" checked data-bootstrap-switch
+                                    data-off-color="danger" data-on-color="success">
+                                <div class="card-tools"> --}}
                                     <button type="button" class="btn btn-tool" data-card-widget="collapse"
                                         title="Collapse">
                                         <i class="fas fa-minus"></i>
@@ -252,4 +254,14 @@
         <!-- /.content -->
     </div>
     <!-- /.content-wrapper -->
+@endsection
+@section('scripts')
+    <script>
+        $(function() {
+            $("input[data-bootstrap-switch]").each(function() {
+                $(this).bootstrapSwitch('state', $(this).prop('checked'));
+                console.log($(this).bootstrapSwitch('state'));
+            })
+        })
+    </script>
 @endsection

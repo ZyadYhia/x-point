@@ -85,15 +85,15 @@ class RoomController extends Controller
         if ($room->status == 'busy') {
             $pivotRow = $room->users()->where('user_id', $user->id)->first();
             if ($pivotRow && $room->users[0]->id == $user->id) {
-                if ($pivotRow->pivot->players == 'single') {
-                    $cost = $this->calc_cost($room->opened_at, $room->cost);
-                    // $points = $this->calculate_points($cost, $room->discount);
-                    // $points = $this->calculate_points($cost->opened_at, $room->cost, $room->discount);
-                } else {
-                    $cost = $this->calc_cost($room->opened_at, $room->cost, 1);
-                    // $points = $this->calculate_points($cost, $room->discount);
-                    // $points = $this->calculate_points($room->opened_at, $room->cost, $room->discount, 1);
-                }
+                // if ($pivotRow->pivot->players == 'single') {
+                $cost = $this->calc_cost($room->opened_at, $room->cost, $room->multi);
+                // $points = $this->calculate_points($cost, $room->discount);
+                // $points = $this->calculate_points($cost->opened_at, $room->cost, $room->discount);
+                // } else {
+                //     $cost = $this->calc_cost($room->opened_at, $room->cost, $room->multi);
+                //     // $points = $this->calculate_points($cost, $room->discount);
+                //     // $points = $this->calculate_points($room->opened_at, $room->cost, $room->discount, 1);
+                // }
                 $points = $this->calculate_points($cost, $room->discount);
                 $time_now = Carbon::now();
                 $time_mins = $time_now->diffInMinutes($room->opened_at);
@@ -145,7 +145,7 @@ class RoomController extends Controller
         $time_now = Carbon::now();
         $time_mins = $time_now->diffInMinutes($opened_at);
         $equation = ($cost / 60) * $time_mins;
-        $total_cost = (!$multiple) ? $equation : $equation * 1.5;
+        $total_cost = (!$multiple) ? $equation : $equation * $multiple;
         return $total_cost;
     }
 }

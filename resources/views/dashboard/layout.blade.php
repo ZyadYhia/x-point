@@ -184,6 +184,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <script src="{{ asset('node-modules/sweetalert2/sweetalert2.all.min.js') }}"></script>
     {{-- Fontawesome --}}
     <script src="{{ asset('adminlte/js/fontawesome.all.min.js') }}"></script>
+    {{-- Bootstrap switch --}}
+    <script src="{{ asset('adminlte/js/bootstrap-switch.min.js') }}"></script>
     <script>
         var Toast = Swal.mixin({
             toast: true,

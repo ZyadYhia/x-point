@@ -312,25 +312,25 @@
                             <div class="col-12">
                                 <div class="form-group">
                                     <label>Name</label>
-                                    <input type="text" class="form-control" id="edit-cat-form-name" name="name">
+                                    <input type="text" class="form-control" name="name">
                                 </div>
                             </div>
                             <div class="col-12">
                                 <div class="form-group">
                                     <label>Cost</label>
-                                    <input type="text" class="form-control" id="edit-cat-form-cost" name="cost">
+                                    <input type="text" class="form-control" name="cost">
                                 </div>
                             </div>
                             <div class="col-12">
                                 <div class="form-group">
                                     <label>Points</label>
-                                    <input type="text" class="form-control" id="edit-cat-form-points" name="points">
+                                    <input type="text" class="form-control" name="points">
                                 </div>
                             </div>
                             <div class="col-12">
                                 <div class="form-group">
                                     <label> Multi-Percentage</label>
-                                    <input type="text" class="form-control" id="edit-cat-form-multi" name="multi">
+                                    <input type="text" class="form-control" name="multi">
                                 </div>
                             </div>
                         </div>
@@ -399,8 +399,7 @@
 @section('scripts')
     <script>
         $('.edit-btn').click(function() {
-            let room = $(this).attr('data-room');
-            $("#edit-modal-header").html(room);
+
             let id = $(this).attr('data-id');
             let name = $(this).attr('data-name');
             let cost = $(this).attr('data-cost');
@@ -411,6 +410,8 @@
             $('#edit-cat-form-cost').val(cost)
             $('#edit-cat-form-points').val(points)
             $('#edit-cat-form-multi').val(multi)
+            let room = $(this).attr('data-room');
+            $("#edit-modal-header").html(room);
         })
         $('.new-btn').click(function() {
             let room = $(this).attr('data-room-type-name');

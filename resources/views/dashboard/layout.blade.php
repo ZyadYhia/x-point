@@ -181,14 +181,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 icon: 'success',
                 title: document.getElementById('session_msg').value
             });
-            successEffect();
+            // successEffect();
         }
         if (document.getElementById('session_error')) {
             Toast.fire({
                 icon: 'error',
                 title: document.getElementById('session_error').value
             });
-            errorEffect();
+            // errorEffect();
         }
     </script>
     @yield('scripts')

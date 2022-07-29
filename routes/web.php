@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Web\Client\HomeController as ClientHomeController;
+use App\Http\Controllers\Web\Client\InvoiceController;
 use App\Http\Controllers\Web\Client\RoomController;
 use App\Http\Controllers\Web\Client\UserController;
 use Illuminate\Support\Facades\Route;
@@ -33,6 +34,9 @@ Route::prefix('dashboard')->middleware(['auth'])->group(function () {
         Route::get('remove-verification/{id}', [UserController::class, 'removeVerify']);
         Route::get('apply-verification/{id}', [UserController::class, 'applyVerify']);
         Route::post('add-user', [UserController::class, 'store'])->name('dashboard_add_users');
+    });
+    Route::prefix('invoices')->group(function(){
+        Route::get('show/{user}', [InvoiceController::class, 'index']);
     });
     Route::post('add-user', [UserController::class, 'store']);
     Route::get('/room/{room}', [RoomController::class, 'index']);

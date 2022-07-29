@@ -52,6 +52,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(Mobile::class);
     }
+    public function invoices()
+    {
+        return $this->hasMany(Invoice::class);
+    }
     public function rooms()
     {
         return $this->belongsToMany(Room::class)->withPivot('players')

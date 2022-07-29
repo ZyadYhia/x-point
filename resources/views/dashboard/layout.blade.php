@@ -94,12 +94,25 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <li class="nav-item">
                             <a href="{{ url('dashboard') }}"
                                 class="nav-link @if (Route::is('dashboard')) active @else @endif">
-                                <i class="nav-icon fas fa-th"></i>
+                                {{-- <i class="nav-icon fas fa-th"></i> --}}
+                                <i class="fab fa-buromobelexperte"></i>
                                 <p>
                                     Rooms
                                 </p>
                             </a>
                         </li>
+                        @if (Auth::user()->role->name !== 'client')
+                            <li class="nav-item">
+                                <a href="{{ url('dashboard/rooms/control') }}"
+                                    class="nav-link @if (Route::is('control_room')) active @else @endif">
+                                    {{-- <i class="nav-icon fas fa-th"></i> --}}
+                                    <i class="nav-icon fas fa-edit"></i>
+                                    <p>
+                                        Control Rooms
+                                    </p>
+                                </a>
+                            </li>
+                        @endif
                         @if (Auth::user()->role->name !== 'client')
                             <li class="nav-item">
                                 <a href="{{ url('dashboard/invoices') }}"

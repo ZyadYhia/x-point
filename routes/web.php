@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\Web\Admin\RoomController as AdminRoomController;
 use App\Http\Controllers\Web\Client\HomeController as ClientHomeController;
 use App\Http\Controllers\Web\Client\InvoiceController;
 use App\Http\Controllers\Web\Client\RoomController;
@@ -38,11 +39,16 @@ Route::prefix('dashboard')->middleware(['auth'])->group(function () {
     Route::prefix('invoices')->group(function(){
         Route::get('show/{user}', [InvoiceController::class, 'index']);
     });
-    Route::post('add-user', [UserController::class, 'store']);
-    Route::get('/room/{room}', [RoomController::class, 'index']);
     Route::prefix('/rooms')->group(function () {
         Route::post('open', [RoomController::class, 'open']);
         Route::post('close', [RoomController::class, 'close']);
+        Route::prefix('control')->group(function(){
+            Route::get('', [AdminRoomController::class, 'index'])->name('control_room');
+            Route::post('store', [AdminRoomController::class, 'create'])->name('control_room');
+            Route::post('update', [AdminRoomController::class, 'update'])->name('control_room');
+            Route::get('room/{id}', [AdminRoomController::class, 'show'])->name('control_room');
+            Route::get('delete/{room}', [AdminRoomController::class, 'delete'])->name('control_room');
+        });
     });
     Route::prefix('invoices')->group(function(){
         Route::get('', [InvoiceController::class, 'index'])->name('invoices');
@@ -50,4 +56,6 @@ Route::prefix('dashboard')->middleware(['auth'])->group(function () {
         Route::get('unpaid/{id}', [InvoiceController::class, 'unpaid']);
         Route::get('user/{id}', [InvoiceController::class, 'showUser']);
     });
+    Route::post('add-user', [UserController::class, 'store']);
+    Route::get('/room/{room}', [RoomController::class, 'index']);
 });

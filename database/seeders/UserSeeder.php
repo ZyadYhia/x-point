@@ -61,5 +61,15 @@ class UserSeeder extends Seeder
             'email_verified_at' => now(),
             'password' => Hash::make('123456789'),
         ]);
+        User::create([
+            'first_name' => 'Counter',
+            'last_name' => 'X-Point',
+            'user_name' => 'counter',
+            'points' => 0,
+            'role_id' => $counter,
+            'email' => 'counter@xpoint.com',
+            'email_verified_at' => now(),
+            'password' => Hash::make('123456789'),
+        ]);
     }
 }

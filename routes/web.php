@@ -44,4 +44,10 @@ Route::prefix('dashboard')->middleware(['auth'])->group(function () {
         Route::post('open', [RoomController::class, 'open']);
         Route::post('close', [RoomController::class, 'close']);
     });
+    Route::prefix('invoices')->group(function(){
+        Route::get('', [InvoiceController::class, 'index'])->name('invoices');
+        Route::get('pay/{id}', [InvoiceController::class, 'pay']);
+        Route::get('unpaid/{id}', [InvoiceController::class, 'unpaid']);
+        Route::get('user/{id}', [InvoiceController::class, 'showUser']);
+    });
 });

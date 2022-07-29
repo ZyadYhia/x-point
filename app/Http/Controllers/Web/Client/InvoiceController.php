@@ -15,7 +15,16 @@ class InvoiceController extends Controller
 {
     public function index()
     {
-        return view('dashboard.invoice.index');
+        $data['invoices_holding'] = Invoice::where('status', 'holding')->orderBy('created_at', 'DESC')->get();
+        $data['invoices_paid'] = Invoice::where('status', 'paid')->orderBy('created_at', 'DESC')->get();
+        $data['invoices_unpaid'] = Invoice::where('status', 'unpaid')->orderBy('created_at', 'DESC')->get();
+        return view('dashboard.invoice.index')->with($data);
+    }
+    public function showUser($id)
+    {
+        $invoice = Invoice::where('id', $id)->first();
+        $user = $invoice->user;
+        return;
     }
     static public function store($user_id, $room, $cost)
     {
@@ -54,5 +63,21 @@ class InvoiceController extends Controller
         }
         dd($user->rooms()->first());
         return;
+    }
+    public function pay($id)
+    {
+        $invoice = Invoice::where('id', $id)->first();
+        $invoice->status = 'paid';
+        $invoice->save();
+        Session::flash('msg', 'Invoice Paied Successfuly');
+        return back();
+    }
+    public function unpaid($id)
+    {
+        $invoice = Invoice::where('id', $id)->first();
+        $invoice->status = 'unpaid';
+        $invoice->save();
+        Session::flash('msg', 'Invoice Paied Successfuly');
+        return back();
     }
 }

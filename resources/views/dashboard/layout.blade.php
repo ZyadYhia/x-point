@@ -100,6 +100,18 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 </p>
                             </a>
                         </li>
+                        @if (Auth::user()->role->name !== 'client')
+                            <li class="nav-item">
+                                <a href="{{ url('dashboard/invoices') }}"
+                                    class="nav-link @if (Route::is('invoices')) active @else @endif">
+                                    {{-- <i class="nav-icon fas fa-th"></i> --}}
+                                    <i class="nav-icon fas fa-file-invoice"></i>
+                                    <p>
+                                        Invoices
+                                    </p>
+                                </a>
+                            </li>
+                        @endif
                         @if (Auth::user()->role->name == 'superadmin' or Auth::user()->role->name == 'admin')
                             <li class="nav-item">
                                 <a href="{{ url('dashboard/users') }}"
@@ -141,7 +153,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 Anything you want
             </div>
             <!-- Default to the left -->
-            <strong>Copyright &copy; 2014-2019 <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights
+            <strong>Copyright &copy; 2022 <a href="">X-Point</a>.</strong> All rights
             reserved.
         </footer>
     </div>
@@ -157,6 +169,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <script src=" {{ asset('adminlte/js/adminlte.js') }}"></script>
     {{-- SweetAlert2 --}}
     <script src="{{ asset('node-modules/sweetalert2/sweetalert2.all.min.js') }}"></script>
+    {{-- Fontawesome --}}
+    <script src="{{ asset('adminlte/js/fontawesome.all.min.js') }}"></script>
     <script>
         var Toast = Swal.mixin({
             toast: true,

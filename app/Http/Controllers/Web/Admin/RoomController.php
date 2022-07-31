@@ -37,6 +37,7 @@ class RoomController extends Controller
             'cost' => 'required',
             'points' => 'required',
             'multi' => 'required',
+            'minimum_cost' => 'required',
         ]);
         if ($validator->failed()) {
             Session::flash('error', 'Validations Error');
@@ -48,6 +49,7 @@ class RoomController extends Controller
             'discount' => $request->points,
             'multi' => $request->multi,
             'room_type_id' => $request->room_type_id,
+            'minimum_cost' => $request->room_type_id,
         ]);
         Session::flash('msg', $room->name . ' Created Successfuly');
         return back();
@@ -60,6 +62,7 @@ class RoomController extends Controller
             'cost' => 'required',
             'points' => 'required',
             'multi' => 'required',
+            'minimum_cost' => 'required',
         ]);
         if ($validator->failed()) {
             Session::flash('error', 'Validations Error');
@@ -68,6 +71,7 @@ class RoomController extends Controller
         $room = Room::where('id', $request->id)->first();
         $room->name = $request->name;
         $room->cost = $request->cost;
+        $room->minimum_cost = $request->minimum_cost;
         $room->discount = $request->points;
         $room->multi = $request->multi;
         $room->save();

@@ -76,6 +76,7 @@
                                                             <th>Cost</th>
                                                             <th>Points</th>
                                                             <th>Multi-Percentage</th>
+                                                            <th>Minimum Running Cost</th>
                                                             <th>Actions</th>
                                                         </tr>
                                                     </thead>
@@ -87,11 +88,13 @@
                                                                 <td>{{ $room->cost }}</td>
                                                                 <td>{{ $room->discount }}</td>
                                                                 <td>{{ $room->multi }}</td>
+                                                                <td>{{ $room->minimum_cost }}</td>
                                                                 <td>
                                                                     <button type="button" @popper(Edit {{ $room->name }})
                                                                         class="btn btn-info btn-sm edit-btn"
                                                                         data-room="{{ $room->name }}"
                                                                         data-id="{{ $room->id }}"
+                                                                        data-min-cost="{{ $room->minimum_cost }}"
                                                                         data-name="{{ $room->name }}"
                                                                         data-cost="{{ $room->cost }}"
                                                                         data-points="{{ $room->discount }}"
@@ -135,6 +138,7 @@
                                                             <th>Cost</th>
                                                             <th>Points</th>
                                                             <th>Multi-Percentage</th>
+                                                            <th>Minimum Running Cost</th>
                                                             <th>Actions</th>
                                                         </tr>
                                                     </thead>
@@ -146,11 +150,13 @@
                                                                 <td>{{ $open->cost }}</td>
                                                                 <td>{{ $open->discount }}</td>
                                                                 <td>{{ $open->multi }}</td>
+                                                                <td>{{ $open->minimum_cost }}</td>
                                                                 <td>
                                                                     <button type="button" @popper(Edit {{ $open->name }})
                                                                         class="btn btn-info btn-sm edit-btn"
                                                                         data-room="{{ $open->name }}"
                                                                         data-id="{{ $open->id }}"
+                                                                        data-min-cost="{{ $open->minimum_cost }}"
                                                                         data-name="{{ $open->name }}"
                                                                         data-cost="{{ $open->cost }}"
                                                                         data-points="{{ $open->discount }}"
@@ -192,6 +198,7 @@
                                                             <th>Name</th>
                                                             <th>Cost</th>
                                                             <th>Points</th>
+                                                            <th>Minimum Running Cost</th>
                                                             <th>Actions</th>
                                                         </tr>
                                                     </thead>
@@ -202,11 +209,13 @@
                                                                 <td>{{ $air_hockie->name }}</td>
                                                                 <td>{{ $air_hockie->cost }}</td>
                                                                 <td>{{ $air_hockie->discount }}</td>
+                                                                <td>{{ $air_hockie->minimum_cost }}</td>
                                                                 <td>
                                                                     <button type="button" @popper(Edit {{ $air_hockie->name }})
                                                                         class="btn btn-info btn-sm edit-btn"
                                                                         data-room="{{ $air_hockie->name }}"
                                                                         data-id="{{ $air_hockie->id }}"
+                                                                        data-min-cost="{{ $air_hockie->minimum_cost }}"
                                                                         data-name="{{ $air_hockie->name }}"
                                                                         data-cost="{{ $air_hockie->cost }}"
                                                                         data-points="{{ $air_hockie->discount }}"
@@ -248,6 +257,7 @@
                                                             <th>Name</th>
                                                             <th>Cost</th>
                                                             <th>Points</th>
+                                                            <th>Minimum Running Cost</th>
                                                             <th>Actions</th>
                                                         </tr>
                                                     </thead>
@@ -258,11 +268,13 @@
                                                                 <td>{{ $Billiard->name }}</td>
                                                                 <td>{{ $Billiard->cost }}</td>
                                                                 <td>{{ $Billiard->discount }}</td>
+                                                                <td>{{ $Billiard->minimum_cost }}</td>
                                                                 <td>
                                                                     <button type="button" @popper(Edit {{ $Billiard->name }})
                                                                         class="btn btn-info btn-sm edit-btn"
                                                                         data-room="{{ $Billiard->name }}"
                                                                         data-id="{{ $Billiard->id }}"
+                                                                        data-min-cost="{{ $Billiard->minimum_cost }}"
                                                                         data-name="{{ $Billiard->name }}"
                                                                         data-cost="{{ $Billiard->cost }}"
                                                                         data-points="{{ $Billiard->discount }}"
@@ -333,6 +345,12 @@
                                     <input type="text" class="form-control" name="multi">
                                 </div>
                             </div>
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label> Minimum Running Cost</label>
+                                    <input type="text" class="form-control" name="minimum_cost">
+                                </div>
+                            </div>
                         </div>
                     </form>
                 </div>
@@ -382,6 +400,13 @@
                                     <input type="text" class="form-control" id="edit-cat-form-multi" name="multi">
                                 </div>
                             </div>
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label> Minimum Running Cost</label>
+                                    <input type="text" class="form-control" id="edit-cat-form-min-cost"
+                                        name="minimum_cost">
+                                </div>
+                            </div>
                         </div>
                     </form>
                 </div>
@@ -405,11 +430,14 @@
             let cost = $(this).attr('data-cost');
             let points = $(this).attr('data-points');
             let multi = $(this).attr('data-multi');
+            let minimum_cost = $(this).attr('data-min-cost');
             $('#edit-cat-form-id').val(id)
             $('#edit-cat-form-name').val(name)
             $('#edit-cat-form-cost').val(cost)
             $('#edit-cat-form-points').val(points)
             $('#edit-cat-form-multi').val(multi)
+            $('#edit-cat-form-min-cost').val(minimum_cost)
+
             let room = $(this).attr('data-room');
             $("#edit-modal-header").html(room);
         })

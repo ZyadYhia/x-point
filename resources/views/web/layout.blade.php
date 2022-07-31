@@ -80,7 +80,7 @@
                         {{-- @if (Auth::user()->role->name == 'client') --}}
                             <li><a href="{{ url('dashboard') }}">{{ __('web.dashboard') }}</a></li>
                         {{-- @endif --}}
-                        <li><a id="logout-link" href="{{ url('logout') }}">{{ __('web.signout') }}</a></li>
+                        <li><a id="logout-link" href="">{{ __('web.signout') }}</a></li>
                     @endauth
                 </ul>
             </nav>
@@ -179,17 +179,17 @@
     </div>
     <!-- /preloader -->
 
+    <!-- jQuery Plugins -->
+    <script type="text/javascript" src="{{ asset('web/js/jquery.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('web/js/bootstrap.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('web/js/main.js') }}"></script>
+
     <script>
         $("#logout-link").click(function(e) {
             e.preventDefault();
             $("#logout-form").submit();
         });
     </script>
-
-    <!-- jQuery Plugins -->
-    <script type="text/javascript" src="{{ asset('web/js/jquery.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('web/js/bootstrap.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('web/js/main.js') }}"></script>
     @yield('scripts')
 </body>
 

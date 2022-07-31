@@ -46,6 +46,11 @@
                                     <h3 class="card-title">Close {{ $room->name }} </h3>
                                 @endif
                                 <div class="card-tools">
+                                    <div class="custom-control custom-checkbox">
+                                        <input class="custom-control-input" type="checkbox" id="pointsWallet"
+                                            onclick="validate()" checked>
+                                        <label for="pointsWallet" class="custom-control-label">Points Included</label>
+                                    </div>
                                     <button type="button" class="btn btn-tool" data-card-widget="collapse"
                                         title="Collapse">
                                         <i class="fas fa-minus"></i>
@@ -226,6 +231,16 @@
             if (document.getElementById('session_invoice')) {
                 document.getElementById('invoice-modal').click();
             }
+            validate();
         })();
+
+        function validate() {
+            let pointsWallet = document.getElementById('pointsWallet');
+            if (pointsWallet.checked) {
+                console.log("checked");
+            } else {
+                console.log("You didn't check it! Let me check it for you.");
+            }
+        }
     </script>
 @endsection

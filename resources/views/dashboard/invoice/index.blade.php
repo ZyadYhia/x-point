@@ -41,7 +41,7 @@
                             <div class="card-header">
                                 <h3 class="card-title">Invoice</h3>
                                 {{-- <div class="card-tools">
-                                    <button id="add-admin-modal" type="button" class="btn btn-primary btn-sm"
+                                    <button id="add-admin-modal" type="button" class="btn btn-primary "
                                         data-toggle="modal" data-target="#new-modal">
                                         Add User
                                     </button>
@@ -87,23 +87,38 @@
                                                                 <td>{{ $invoice->name }}</td>
                                                                 @php
                                                                     $cost = 0;
+                                                                    $min_cost = 0;
                                                                     $time = 0;
                                                                     foreach ($invoice->invoice_details as $detail) {
                                                                         $cost += $detail->cost;
                                                                         $time += $detail->time;
+                                                                        $min_cost = $detail->room->minimum_cost ? $detail->room->minimum_cost : 0;
                                                                     }
+                                                                    $cost -= $invoice->points;
                                                                 @endphp
                                                                 <td>{{ $time }}</td>
                                                                 {{-- <td><span class="tag tag-success">{{ $invoice->invoice_details[0]->cost }}</span></td> --}}
                                                                 <td>{{ $cost }}</td>
                                                                 <td>{{ $invoice->status }}</td>
                                                                 <td>
+                                                                    <button @popper(View) id="invoice-modal"
+                                                                        type="button" class="btn btn-warning view-btn"
+                                                                        data-toggle="modal"
+                                                                        data-invoice-id="{{ $invoice->id }}"
+                                                                        data-room="{{ $invoice->name }}"
+                                                                        data-time="{{ $time }}"
+                                                                        data-cost="{{ $cost }}"
+                                                                        data-min-cost="{{ $min_cost }}"
+                                                                        data-points="{{ $invoice->user->points }}"
+                                                                        data-target="#modal-lg-invoice" @popper(View)>
+                                                                        <i class="fa-solid fa-street-view"></i>
+                                                                    </button>
                                                                     <a href="{{ url("dashboard/invoices/pay/$invoice->id") }}"
-                                                                        class="btn btn-success btn-sm" @popper(Pay)>
+                                                                        class="btn btn-success " @popper(Pay)>
                                                                         <i class="fas fa-comment-dollar"></i>
                                                                     </a>
                                                                     <a href="{{ url("dashboard/invoices/unpaid/$invoice->id") }}"
-                                                                        class="btn btn-danger btn-sm" @popper(Unpaid)>
+                                                                        class="btn btn-danger " @popper(Unpaid)>
                                                                         <i class="fas fa-comment-dollar"></i>
                                                                     </a>
                                                                 </td>
@@ -150,19 +165,23 @@
                                                                 <td>{{ $invoice->name }}</td>
                                                                 @php
                                                                     $cost = 0;
+                                                                    $min_cost = 0;
                                                                     $time = 0;
                                                                     foreach ($invoice->invoice_details as $detail) {
                                                                         $cost += $detail->cost;
                                                                         $time += $detail->time;
+                                                                        $min_cost = $detail->room->minimum_cost ? $detail->room->minimum_cost : 0;
                                                                     }
+                                                                    $cost -= $invoice->points;
                                                                 @endphp
                                                                 <td>{{ $time }}</td>
                                                                 {{-- <td><span class="tag tag-success">{{ $invoice->invoice_details[0]->cost }}</span></td> --}}
                                                                 <td>{{ $cost }}</td>
                                                                 <td>{{ $invoice->status }}</td>
                                                                 <td>
+
                                                                     <a href="{{ url("dashboard/invoices/unpaid/$invoice->id") }}"
-                                                                        class="btn btn-danger btn-sm" @popper(Unpaid)>
+                                                                        class="btn btn-danger " @popper(Unpaid)>
                                                                         <i class="fas fa-comment-dollar"></i>
                                                                     </a>
                                                                 </td>
@@ -209,23 +228,39 @@
                                                                 <td>{{ $invoice->name }}</td>
                                                                 @php
                                                                     $cost = 0;
+                                                                    $min_cost = 0;
                                                                     $time = 0;
                                                                     foreach ($invoice->invoice_details as $detail) {
                                                                         $cost += $detail->cost;
                                                                         $time += $detail->time;
+                                                                        $min_cost = $detail->room->minimum_cost ? $detail->room->minimum_cost : 0;
                                                                     }
+                                                                    $cost -= $invoice->points;
                                                                 @endphp
                                                                 <td>{{ $time }}</td>
                                                                 {{-- <td><span class="tag tag-success">{{ $invoice->invoice_details[0]->cost }}</span></td> --}}
                                                                 <td>{{ $cost }}</td>
                                                                 <td>{{ $invoice->status }}</td>
                                                                 <td>
+                                                                    <button @popper(View) id="invoice-modal"
+                                                                        type="button" class="btn btn-warning view-btn"
+                                                                        data-toggle="modal"
+                                                                        data-invoice-id="{{ $invoice->id }}"
+                                                                        data-room="{{ $invoice->name }}"
+                                                                        data-time="{{ $time }}"
+                                                                        data-cost="{{ $cost }}"
+                                                                        data-min-cost="{{ $min_cost }}"
+                                                                        data-points="{{ $invoice->user->points }}"
+                                                                        data-target="#modal-lg-invoice" @popper(View)>
+                                                                        <i class="fa-solid fa-street-view"></i>
+                                                                    </button>
+
                                                                     <a href="{{ url("dashboard/invoices/pay/$invoice->id") }}"
-                                                                        class="btn btn-success btn-sm" @popper(Pay)>
+                                                                        class="btn btn-success " @popper(Pay)>
                                                                         <i class="fas fa-comment-dollar"></i>
                                                                     </a>
                                                                     {{-- <a href="{{ url("dashboard/invoices/user/$invoice->id") }}"
-                                                                        class="btn btn-success btn-sm" @popper(User)>
+                                                                        class="btn btn-success " @popper(User)>
                                                                         <i class="fal fa-user"></i>
                                                                     </a> --}}
                                                                 </td>
@@ -249,4 +284,134 @@
         </div>
         <!-- /.content -->
     </div>
+
+
+    <div class="modal fade" id="modal-lg-invoice" style="display: none;" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">INVOICE</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-body table-responsive p-0">
+                                    <table class="table table-hover text-nowrap">
+                                        <thead>
+                                            <tr>
+                                                <th>Room</th>
+                                                <th>Time/min</th>
+                                                <th>Cost</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td><span id="view-cat-form-room"></span></td>
+                                                <td><span id="view-cat-form-time"></span></td>
+                                                <td><span id="view-cat-form-cost"></span></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="card-body">
+                                    <form id="points-form" action="{{ url('dashboard/invoices/add-points') }}"
+                                        method="post">
+                                        @csrf
+                                        <input type="hidden" name="points" id="points">
+                                        <input type="hidden" name="invoice_id" id="invoice_id">
+                                        <div class="row">
+                                            {{-- <div class="custom-control custom-checkbox">
+                                                <input class="custom-control-input" type="checkbox" id="pointsWallet"
+                                                    onclick="validate()" checked>
+                                                <label for="pointsWallet" class="custom-control-label">Points
+                                                    Included</label>
+                                            </div> --}}
+                                            {{-- <div class="form-group">
+                                            <div
+                                                class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
+                                                <input form="points-form" onclick="validate()" type="checkbox"
+                                                    class="custom-control-input" id="pointsWallet">
+                                                <label class="custom-control-label" for="pointsWallet">Toggle</label>
+                                            </div>
+                                             </div> --}}
+                                        </div>
+                                    </form>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
+                        <input form="points-form" onclick="validate()" type="checkbox" class="custom-control-input"
+                            id="pointsWallet">
+                        <label class="custom-control-label" id="pointsWalletLabel" for="pointsWallet">Use Points</label>
+                    </div>
+                    <button type="submit" form="points-form" class="btn btn-success">Use</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+@endsection
+@section('scripts')
+    <script>
+        let old_cost = 1;
+        let new_cost = 1;
+        let points = 1;
+        let available_points = 1;
+        let min_cost_invoice = 0;
+        $('.view-btn').click(function() {
+            let id_invoice = $(this).attr('data-invoice-id');
+            let room_invoice = $(this).attr('data-room');
+            let time_invoice = $(this).attr('data-time');
+            let cost_invoice = $(this).attr('data-cost');
+            min_cost_invoice = $(this).attr('data-min-cost');
+            let points_invoice = $(this).attr('data-points');
+            old_cost = cost_invoice;
+            points = points_invoice;
+            console.log(room_invoice, time_invoice, cost_invoice, points_invoice);
+            $('#view-cat-form-room').html(room_invoice)
+            $('#view-cat-form-time').html(time_invoice)
+            $('#view-cat-form-cost').html(cost_invoice)
+            $('#view-cat-form-points').val(points_invoice)
+            $('#view-cat-form-invoice-id').val(points_invoice)
+            $('#invoice_id').val(id_invoice)
+            let room = $(this).attr('data-room');
+            $("#view-modal-header").html(room_invoice);
+            available_points = old_cost - min_cost_invoice;
+            $("#pointsWalletLabel").html(`${available_points} points to use from ${points} points`);
+            validate();
+        });
+
+        function validate() {
+            let pointsWallet = document.getElementById('pointsWallet');
+            if (pointsWallet.checked) {
+                if (old_cost <= min_cost_invoice) {
+                    new_cost = old_cost;
+                } else {
+                    new_cost = old_cost - points;
+                }
+
+                if (new_cost < min_cost_invoice) {
+                    available_points = old_cost - min_cost_invoice;
+                    new_cost = old_cost - available_points;
+                    $("#pointsWalletLabel").html(`${available_points} points used from ${points} points`);
+                }
+                $('#view-cat-form-cost').html(new_cost)
+                $('#points').val(available_points)
+            } else {
+                $('#points').val(0)
+                $('#view-cat-form-cost').html(old_cost)
+                $("#pointsWalletLabel").html(`${available_points} points to use from ${points} points`);
+            }
+        }
+    </script>
 @endsection

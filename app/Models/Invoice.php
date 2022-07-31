@@ -8,10 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Invoice extends Model
 {
     use HasFactory;
-    protected $fillable = [
-        'user_id',
-        'name',
-        'status'
+    protected $guarded = [
+        'id',
+        'created_at',
+        'updated_at'
     ];
     public function invoice_details()
     {

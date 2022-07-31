@@ -125,6 +125,18 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 </a>
                             </li>
                         @endif
+                        @if (Auth::user()->role->name !== 'client')
+                            <li class="nav-item">
+                                <a href="{{ url('dashboard/reports') }}"
+                                    class="nav-link @if (Route::is('reports')) active @else @endif">
+                                    {{-- <i class="nav-icon fas fa-th"></i> --}}
+                                    <i class="nav-icon fas fa-chart-bar"></i>
+                                    <p>
+                                        Reports
+                                    </p>
+                                </a>
+                            </li>
+                        @endif
                         @if (Auth::user()->role->name == 'superadmin' or Auth::user()->role->name == 'admin')
                             <li class="nav-item">
                                 <a href="{{ url('dashboard/users') }}"

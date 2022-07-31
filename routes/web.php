@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\Web\Admin\ReportsController;
 use App\Http\Controllers\Web\Admin\RoomController as AdminRoomController;
 use App\Http\Controllers\Web\Client\HomeController as ClientHomeController;
 use App\Http\Controllers\Web\Client\InvoiceController;
@@ -36,9 +37,6 @@ Route::prefix('dashboard')->middleware(['auth'])->group(function () {
         Route::get('apply-verification/{id}', [UserController::class, 'applyVerify']);
         Route::post('add-user', [UserController::class, 'store'])->name('dashboard_add_users');
     });
-    Route::prefix('invoices')->group(function(){
-        Route::get('show/{user}', [InvoiceController::class, 'index']);
-    });
     Route::prefix('/rooms')->group(function () {
         Route::post('open', [RoomController::class, 'open']);
         Route::post('close', [RoomController::class, 'close']);
@@ -55,6 +53,10 @@ Route::prefix('dashboard')->middleware(['auth'])->group(function () {
         Route::get('pay/{id}', [InvoiceController::class, 'pay']);
         Route::get('unpaid/{id}', [InvoiceController::class, 'unpaid']);
         Route::get('user/{id}', [InvoiceController::class, 'showUser']);
+        Route::post('add-points', [InvoiceController::class, 'add_points']);
+    });
+    Route::prefix('reports')->group(function(){
+        Route::get('', [ReportsController::class, 'index'])->name('reports');
     });
     Route::post('add-user', [UserController::class, 'store']);
     Route::get('/room/{room}', [RoomController::class, 'index']);

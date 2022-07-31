@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\Web\Client;
 
+use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Invoice;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use App\Models\InvoiceDetail;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
@@ -15,9 +16,9 @@ class InvoiceController extends Controller
 {
     public function index()
     {
-        $data['invoices_holding'] = Invoice::where('status', 'holding')->orderBy('created_at', 'DESC')->get();
-        $data['invoices_paid'] = Invoice::where('status', 'paid')->orderBy('created_at', 'DESC')->get();
-        $data['invoices_unpaid'] = Invoice::where('status', 'unpaid')->orderBy('created_at', 'DESC')->get();
+        $data['invoices_holding'] = Invoice::whereDate('created_at', Carbon::today())->where('status', 'holding')->orderBy('created_at', 'DESC')->get();
+        $data['invoices_paid'] = Invoice::whereDate('created_at', Carbon::today())->where('status', 'paid')->orderBy('created_at', 'DESC')->get();
+        $data['invoices_unpaid'] = Invoice::whereDate('created_at', Carbon::today())->where('status', 'unpaid')->orderBy('created_at', 'DESC')->get();
         return view('dashboard.invoice.index')->with($data);
     }
     public function showUser($id)
@@ -78,7 +79,23 @@ class InvoiceController extends Controller
         $invoice = Invoice::where('id', $id)->first();
         $invoice->status = 'unpaid';
         $invoice->save();
-        Session::flash('msg', 'Invoice Paied Successfuly');
+        Session::flash('msg', 'Invoice Refunded Successfuly');
+        return back();
+    }
+    public function add_points(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'points' => 'required',
+            'invoice_id' => 'required|exists:invoices,id'
+        ]);
+        if ($validator->failed()) {
+            Session::flash('error', $validator->errors());
+            return back();
+        }
+        $invoice = Invoice::where('id', $request->invoice_id)->first();
+        $invoice->points = $request->points;
+        $invoice->save();
+        Session::flash('msg', $request->points . ' Points added to ' . $invoice->name . ' Invoice');
         return back();
     }
 }

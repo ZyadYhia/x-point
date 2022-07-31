@@ -95,13 +95,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             <a href="{{ url('dashboard') }}"
                                 class="nav-link @if (Route::is('dashboard')) active @else @endif">
                                 {{-- <i class="nav-icon fas fa-th"></i> --}}
-                                <i class="fab fa-buromobelexperte"></i>
+                                <i class="nav-icon fab fa-buromobelexperte"></i>
                                 <p>
                                     Rooms
                                 </p>
                             </a>
                         </li>
-                        @if (Auth::user()->role->name !== 'client')
+                        @if (Auth::user()->role->name !== 'client' and Auth::user()->role->name !== 'counter')
                             <li class="nav-item">
                                 <a href="{{ url('dashboard/rooms/control') }}"
                                     class="nav-link @if (Route::is('control_room')) active @else @endif">
@@ -125,7 +125,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 </a>
                             </li>
                         @endif
-                        @if (Auth::user()->role->name !== 'client')
+                        @if (Auth::user()->role->name !== 'client' and Auth::user()->role->name !== 'counter')
                             <li class="nav-item">
                                 <a href="{{ url('dashboard/reports') }}"
                                     class="nav-link @if (Route::is('reports')) active @else @endif">

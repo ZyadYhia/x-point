@@ -95,7 +95,10 @@ class InvoiceController extends Controller
         $invoice = Invoice::where('id', $request->invoice_id)->first();
         $invoice->points = $request->points;
         $invoice->save();
+        $user = $invoice->user;
+        $user->points -= $request->points;
+        $user->save();
         Session::flash('msg', $request->points . ' Points added to ' . $invoice->name . ' Invoice');
-        return back();
+        return redirect(url('dashboard'));
     }
 }

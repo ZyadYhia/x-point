@@ -88,7 +88,7 @@
 
                         <div class="card">
                             <div class="card-header bg-info">
-                                <h3 class="card-title">{{ $open->name }}</h3><br>
+                                <h3 class="card-title">{{ $open->name }}</h3>
                                 <div class="card-tools">
                                     <button type="button" class="btn btn-tool" data-card-widget="collapse"
                                         title="Collapse">

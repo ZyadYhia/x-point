@@ -46,11 +46,6 @@
                                     <h3 class="card-title">Close {{ $room->name }} </h3>
                                 @endif
                                 <div class="card-tools">
-                                    <div class="custom-control custom-checkbox">
-                                        <input class="custom-control-input" type="checkbox" id="pointsWallet"
-                                            onclick="validate()" checked>
-                                        <label for="pointsWallet" class="custom-control-label">Points Included</label>
-                                    </div>
                                     <button type="button" class="btn btn-tool" data-card-widget="collapse"
                                         title="Collapse">
                                         <i class="fas fa-minus"></i>
@@ -61,10 +56,10 @@
                                 <div class="container-fluid">
                                     <div class="row justify-content-center">
                                         <div class="col-12 pb-3">
-                                            <form id="add-new-form"
-                                                @if ($room->status == 'available') action="{{ url('dashboard/rooms/open') }}"
-                                            @else action="{{ url('dashboard/rooms/close') }}" @endif
-                                                method="POST">
+                                            @php
+                                                $actionURL = $room->status == 'available' ? url('dashboard/rooms/open') : url('dashboard/rooms/close');
+                                            @endphp
+                                            <form id="open-close-form" action="{{ $actionURL }}" method="POST">
                                                 @csrf
                                                 <input type="hidden" name="room" value="{{ $room->id }}">
                                                 <div class="row">
@@ -105,7 +100,7 @@
                                                 <div class="modal-footer col-md-6 justify-content-between">
                                                     <a href="{{ url()->previous() }}" class="btn btn-primary"
                                                         data-dismiss="modal">Back</a>
-                                                    <button type="submit" form="add-new-form"
+                                                    <button type="submit" form="open-close-form"
                                                         class="btn btn-success">Submit</button>
                                                     @if ($room->status == 'available')
                                                         <button type="button" class="btn btn-warning" data-toggle="modal"
@@ -155,6 +150,7 @@
         Launch Large Modal
     </button>
     @if (session('invoice'))
+        {{-- <div class="modal fade" id="modal-lg-invoice"> --}}
         <div class="modal fade" id="modal-lg-invoice" style="display: none;" aria-hidden="true">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
@@ -168,20 +164,6 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="card">
-                                    {{-- <div class="card-header">
-                                    <h3 class="card-title">Responsive Hover Table</h3>
-                                    <div class="card-tools">
-                                        <div class="input-group input-group-sm" style="width: 150px;">
-                                            <input type="text" name="table_search"
-                                                class="form-control float-right" placeholder="Search">
-                                            <div class="input-group-append">
-                                                <button type="submit" class="btn btn-default">
-                                                    <i class="fas fa-search"></i>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div> --}}
 
                                     <div class="card-body table-responsive p-0">
                                         <table class="table table-hover text-nowrap">
@@ -189,8 +171,6 @@
                                                 <tr>
                                                     <th>#</th>
                                                     <th>Room</th>
-                                                    {{-- <th>Opened At</th>
-                                                <th>Closed At</th> --}}
                                                     <th>Time/min</th>
                                                     <th>Cost</th>
                                                 </tr>
@@ -198,18 +178,42 @@
                                             <tbody>
                                                 {{-- @foreach ($invoices as $invoice) --}}
                                                 <tr>
-                                                    {{-- <td>{{ $loop->iteration }}</td> --}}
+                                                    @php
+                                                        $cost = 0;
+                                                        $min_cost = 0;
+                                                        $time = 0;
+                                                        foreach ($invoice->invoice_details as $detail) {
+                                                            $cost += $detail->cost;
+                                                            $time += $detail->time;
+                                                            $min_cost = $detail->room->minimum_cost ? $detail->room->minimum_cost : 0;
+                                                        }
+                                                        $cost -= $invoice->points;
+                                                    @endphp
+                                                    <input type="hidden" id="min_cost" value="{{ $min_cost }}">
+
+                                                    <input type="hidden" id="user_points"
+                                                        value="{{ $invoice->user->points }}">
+
                                                     <td>1</td>
-                                                    <td>{{ $room->name }}</td>
-                                                    {{-- <td>{{ $room->opened_at }}</td> --}}
-                                                    <td><span class="tag tag-success">{{ $time }}</span></td>
-                                                    <td>{{ $cost }}</td>
+                                                    <td>{{ $invoice->name }}</td>
+                                                    <td id="time_invoice">{{ $time }}</td>
+                                                    <td id="cost_invoice">{{ $cost }}</td>
                                                 </tr>
                                                 {{-- @endforeach --}}
                                             </tbody>
                                         </table>
                                     </div>
 
+
+                                    <div class="card-body">
+                                        <form id="points-form" action="{{ url('dashboard/invoices/add-points') }}"
+                                            method="POST">
+                                            @csrf
+                                            <input type="hidden" name="points" id="points">
+                                            <input type="hidden" name="invoice_id" id="invoice_id"
+                                                value="{{ $invoice->id }}">
+                                        </form>
+                                    </div>
                                 </div>
 
                             </div>
@@ -217,7 +221,15 @@
                     </div>
                     <div class="modal-footer justify-content-between">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button type="submit" form="add-new-user" class="btn btn-success">Add</button>
+                        @if ($invoice->points !== 0)
+                            <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
+                                <input form="points-form" onclick="validate()" type="checkbox"
+                                    class="custom-control-input" id="pointsWallet">
+                                <label class="custom-control-label" id="pointsWalletLabel" for="pointsWallet">Use
+                                    Points</label>
+                            </div>
+                        @endif
+                        <button type="submit" id="points-link" form="points-form" class="btn btn-success">Use</button>
                     </div>
                 </div>
 
@@ -227,20 +239,57 @@
 @endsection
 @section('scripts')
     <script>
+        let old_cost = 1;
+        let new_cost = 1;
+        let points = 1;
+        let available_points = 0;
+        let min_cost_invoice = 0;
+        // Autoclick and open Invoice Modal
         (function() {
             if (document.getElementById('session_invoice')) {
                 document.getElementById('invoice-modal').click();
+                // let id_invoice = $("#invoice_id").val();
+                let cost_invoice = $("#cost_invoice").html();
+                let points_invoice = $("#user_points").val();
+                min_cost_invoice = $("#min_cost").val();
+                old_cost = parseInt(cost_invoice, 10);
+                points = points_invoice;
+
+                if (old_cost != 0) {
+
+                    available_points = old_cost - min_cost_invoice;
+                }
+                $("#pointsWalletLabel").html(`${available_points} points to use from ${points} points`);
             }
             validate();
         })();
 
         function validate() {
+            //Toggle Switch
             let pointsWallet = document.getElementById('pointsWallet');
-            if (pointsWallet.checked) {
-                console.log("checked");
+            if (pointsWallet.checked && old_cost != 0) {
+                if (old_cost <= min_cost_invoice) {
+                    new_cost = old_cost;
+                } else {
+                    new_cost = old_cost - points;
+                }
+
+                if (new_cost < min_cost_invoice) {
+                    available_points = old_cost - min_cost_invoice;
+                    new_cost = old_cost - available_points;
+                    $("#pointsWalletLabel").html(`${available_points} points used from ${points} points`);
+                }
+                $('#cost_invoice').html(new_cost)
+                $('#points').val(available_points)
             } else {
-                console.log("You didn't check it! Let me check it for you.");
+                $('#points').val(0)
+                $('#cost_invoice').html(old_cost)
+                $("#pointsWalletLabel").html(`${available_points} points to use from ${points} points`);
             }
         }
+        $("#points-link").click(function(e) {
+            e.preventDefault();
+            $("#points-form").submit();
+        });
     </script>
 @endsection

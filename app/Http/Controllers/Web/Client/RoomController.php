@@ -5,11 +5,13 @@ namespace App\Http\Controllers\Web\Client;
 use Carbon\Carbon;
 use App\Models\Room;
 use App\Models\User;
+use App\Models\Invoice;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Controllers\Web\Client\InvoiceController;
 
 class RoomController extends Controller
 {
@@ -117,7 +119,9 @@ class RoomController extends Controller
         $data['cost'] = $cost;
         $data['time'] = $time_mins;
         $data['room'] = $room;
-        $data['invoices'] = $user->invoices();
+        $data['invoice'] = Invoice::with('invoice_details')->orderBy('created_at', 'DESC')->where('status', '!=', 'paid')->where('user_id', $user->id)->first();
+        // $data['invoices'] = Invoice::with('invoice_details')->where('status', '!=', 'paid')->where('user_id', $user->id)->get();
+        // $data['invoices'] = $user->invoices();
         // dd($data['invoices']);
         $data['room_type'] = $room->room_type->name;
         return view('dashboard.Room.index')->with($data);

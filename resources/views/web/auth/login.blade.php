@@ -1,63 +1,77 @@
 @extends('web.layout')
 @section('title')
-Sign In
+    Sign In
 @endsection
 @section('main')
     <!-- Hero-area -->
-		<div class="hero-area section">
+    <div class="hero-area section">
 
-			<!-- Backgound Image -->
-			<div class="bg-image bg-parallax overlay" style="background-image:url({{asset('web/img/page-background.jpg')}})"></div>
-			<!-- /Backgound Image -->
+        <!-- Backgound Image -->
+        <div class="bg-image bg-parallax overlay" style="background-image:url({{ asset('web/img/page-background.jpg') }})">
+        </div>
+        <!-- /Backgound Image -->
 
-			<div class="container">
-				<div class="row">
-					<div class="col-md-10 col-md-offset-1 text-center">
-						<ul class="hero-area-tree">
-							<li><a href="{{url('')}}">{{__('web.home')}}</a></li>
-							<li>{{__('web.signin')}}</li>
-						</ul>
-						<h1 class="white-text">{{__('web.signin_sentence')}}</h1>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-10 col-md-offset-1 text-center">
+                    <ul class="hero-area-tree">
+                        <li><a href="{{ url('') }}">{{ __('web.home') }}</a></li>
+                        <li>{{ __('web.signin') }}</li>
+                    </ul>
+                    <h1 class="white-text">{{ __('web.signin_sentence') }}</h1>
 
-					</div>
-				</div>
-			</div>
+                </div>
+            </div>
+        </div>
 
-		</div>
-		<!-- /Hero-area -->
+    </div>
+    <!-- /Hero-area -->
 
-		<!-- Contact -->
-		<div id="contact" class="section">
+    <!-- Contact -->
+    <div id="contact" class="section">
 
-			<!-- container -->
-			<div class="container">
+        <!-- container -->
+        <div class="container">
 
-				<!-- row -->
-				<div class="row">
+            <!-- row -->
+            <div class="row">
+                <div class="col-md-12">
 
-					<!-- login form -->
-					<div class="col-md-6 col-md-offset-3">
-						<div class="contact-form">
-							<h4>{{__('web.signin')}}</h4>
+                    <!-- login form -->
+                    <div class="col-md-6 col-md-offset-3">
+                        <div class="contact-form">
+                            <h4>{{ __('web.signin') }}</h4>
                             @include('web.includes.message')
-							<form action="{{url('login')}}" method="POST">
+                            <form action="{{ url('login') }}" method="POST">
                                 @csrf
-								<input class="input" type="email" name="email" placeholder="{{__('web.email')}}">
-								<input class="input" type="password" name="password" placeholder="{{__('web.password')}}">
-                                <input type="checkbox" name="remember" class="checkmark">  {{__('web.remember_me')}}
-								<a href="{{url('forgot-password')}}" class="main-button icon-button pull-right">{{__('web.forget_password')}}</a>
-								<button type="submit" class="main-button icon-button pull-right">{{__('web.signin')}}</button>
-							</form>
-						</div>
-					</div>
-					<!-- /login form -->
+                                <input class="input" type="email" name="email" placeholder="{{ __('web.email') }}">
+                                <input class="input" type="password" name="password"
+                                    placeholder="{{ __('web.password') }}">
+                                <input type="checkbox" name="remember" class="checkmark"> {{ __('web.remember_me') }}
+                                <button type="submit"
+                                    class="main-button icon-button pull-right">{{ __('web.signin') }}</button>
+                            </form>
+                        </div>
+                    </div>
+                    <!-- /login form -->
+                </div>
+                <div class="col-md-12"><br></div>
+                <div class="col-md-12 ">
+                    <div class="row">
+                        <div class="col-md-6 col-md-offset-3">
 
-				</div>
-				<!-- /row -->
+                            <a href="{{ url('forgot-password') }}"
+                                class="main-button icon-button pull-right">{{ __('web.forget_password') }}</a>
+                        </div>
+                    </div>
+                </div>
 
-			</div>
-			<!-- /container -->
+            </div>
+            <!-- /row -->
 
-		</div>
-		<!-- /Contact -->
+        </div>
+        <!-- /container -->
+
+    </div>
+    <!-- /Contact -->
 @endsection

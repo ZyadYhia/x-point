@@ -197,7 +197,9 @@
                                                     <td>1</td>
                                                     <td>{{ $invoice->name }}</td>
                                                     <td id="time_invoice">{{ $time }}</td>
-                                                    <td id="cost_invoice">{{ $cost }}</td>
+                                                    <td id="view-invoice-form-cost">{{ $cost }}</td>
+                                                    <input type="hidden" id="cost_invoice_input" value="{{ $cost }}">
+                                                    <input type="hidden" id="time_invoice_input" value="{{ $time }}">
                                                 </tr>
                                                 {{-- @endforeach --}}
                                             </tbody>
@@ -237,56 +239,37 @@
         </div>
     @endif
 @endsection
+@include('dashboard.partials.JS.invoiceToggle')
 @section('scripts')
     <script>
-        let old_cost = 1;
-        let new_cost = 1;
-        let points = 1;
-        let available_points = 0;
-        let min_cost_invoice = 0;
         // Autoclick and open Invoice Modal
         (function() {
             if (document.getElementById('session_invoice')) {
-                document.getElementById('invoice-modal').click();
                 // let id_invoice = $("#invoice_id").val();
-                let cost_invoice = $("#cost_invoice").html();
+                // let cost_invoice = $("#cost_invoice").html();
+                let cost_invoice = $("#cost_invoice_input").val();
+                let time_invoice = $("#time_invoice_input").val();
                 let points_invoice = $("#user_points").val();
-                min_cost_invoice = $("#min_cost").val();
-                old_cost = parseInt(cost_invoice, 10);
+                min_cost_invoice = Math.round(($("#min_cost").val() / 60) * time_invoice);
+                old_cost = cost_invoice;
                 points = points_invoice;
 
-                if (old_cost != 0) {
-
+                if ((old_cost - points) < min_cost_invoice) {
                     available_points = old_cost - min_cost_invoice;
+                } else {
+                    available_points = points;
                 }
+
+                // if (old_cost == 0) {
+
+                //     available_points = 0;
+                // }
                 $("#pointsWalletLabel").html(`${available_points} points to use from ${points} points`);
+                document.getElementById('invoice-modal').click();
             }
             validate();
         })();
 
-        function validate() {
-            //Toggle Switch
-            let pointsWallet = document.getElementById('pointsWallet');
-            if (pointsWallet.checked && old_cost != 0) {
-                if (old_cost <= min_cost_invoice) {
-                    new_cost = old_cost;
-                } else {
-                    new_cost = old_cost - points;
-                }
-
-                if (new_cost < min_cost_invoice) {
-                    available_points = old_cost - min_cost_invoice;
-                    new_cost = old_cost - available_points;
-                    $("#pointsWalletLabel").html(`${available_points} points used from ${points} points`);
-                }
-                $('#cost_invoice').html(new_cost)
-                $('#points').val(available_points)
-            } else {
-                $('#points').val(0)
-                $('#cost_invoice').html(old_cost)
-                $("#pointsWalletLabel").html(`${available_points} points to use from ${points} points`);
-            }
-        }
         $("#points-link").click(function(e) {
             e.preventDefault();
             $("#points-form").submit();

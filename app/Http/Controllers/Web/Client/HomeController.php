@@ -19,6 +19,6 @@ class HomeController extends Controller
         $data['opens'] = Room::where('room_type_id', $data['open']->id)->get();
         $data['pools'] = Room::where('room_type_id', $data['pool']->id)->get();
         $data['air_hockies'] = Room::where('room_type_id', $data['air']->id)->get();
-        return view('dashboard.home.index')->with($data);
+        return view('dashboard.Home.index')->with($data);
     }
 }

@@ -31,8 +31,8 @@ Contact
                 <div class="col-md-5 col-md-offset-1">
                     <h4>Contact Information</h4>
                     <ul class="contact-details">
-                        <li><i class="fa fa-envelope"></i>Educate@email.com</li>
-                        <li><i class="fa fa-phone"></i>122-547-223-45</li>
+                        <li><i class="fa fa-envelope"></i>{{ $contact->email }}</li>
+                        <li><i class="fa fa-phone"></i>{{ $contact->mobile }}</li>
                     </ul>
 
                 </div>

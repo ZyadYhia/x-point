@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Web\Client\InvoiceController;
+use PhpParser\Parser\Multiple;
 
 class RoomController extends Controller
 {
@@ -88,7 +89,8 @@ class RoomController extends Controller
             $pivotRow = $room->users()->where('user_id', $user->id)->first();
             if ($pivotRow && $room->users[0]->id == $user->id) {
                 // if ($pivotRow->pivot->players == 'single') {
-                $cost = $this->calc_cost($room->opened_at, $room->cost, $room->multi);
+                $multiCheck = ($pivotRow->pivot->players == 'single')? 1 : $room->multi ;
+                $cost = $this->calc_cost($room->opened_at, $room->cost, $multiCheck);
                 // $points = $this->calculate_points($cost, $room->discount);
                 // $points = $this->calculate_points($cost->opened_at, $room->cost, $room->discount);
                 // } else {
@@ -112,6 +114,7 @@ class RoomController extends Controller
                 Session::flash('invoice', 'success');
             } else {
                 Session::flash('error', 'Wrong Opening User');
+                return back();
             }
         }
 
@@ -148,8 +151,10 @@ class RoomController extends Controller
     {
         $time_now = Carbon::now();
         $time_mins = $time_now->diffInMinutes($opened_at);
-        $equation = ($cost / 60) * $time_mins;
-        $total_cost = (!$multiple) ? $equation : $equation * $multiple;
-        return $total_cost;
+        $equation = (($cost / 60) * $time_mins) * $multiple;
+        // $equation = ($cost / 60) * $time_mins;
+        // $total_cost = (!$multiple) ? $equation : $equation * $multiple;
+        return $equation;
+        // return $total_cost;
     }
 }

@@ -6,7 +6,6 @@ use Exception;
 use Carbon\Carbon;
 use App\Models\Role;
 use App\Models\User;
-use App\Models\Mobile;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -19,6 +18,7 @@ class UserController extends Controller
     public function index()
     {
         $client = Role::where('name', 'client')->first();
+        $superadmin = Role::where('name', 'superadmin')->first();
         // $data['counters'] = User::where('role_id', $counter->id)->get();
         // if (Auth::user()->role->name == 'superadmin') {
         //     $admin = Role::where('name', 'admin')->first();
@@ -28,7 +28,7 @@ class UserController extends Controller
         //     $data['isSuperadmin'] = 0;
         // }
         $data['counter'] = Role::select('id')->where('name', 'counter')->first();
-        $data['admins'] = User::whereNot('role_id', $client->id)
+        $data['admins'] = User::where('role_id', '!=', $client->id)->where('role_id', '!=', $superadmin->id)
             ->orderBy('id', 'DESC')
             ->get();
 
@@ -58,12 +58,9 @@ class UserController extends Controller
             'last_name' => $request->last_name,
             'user_name' => $request->user_name,
             'email' => $request->email,
+            'mobile' => $request->mobile,
             'password' => Hash::make($request->password),
             'role_id' => $role
-        ]);
-        Mobile::create([
-            'name' => $request->mobile,
-            'user_id' => $user->id
         ]);
         Session::flash('msg', 'User Created Successfuly');
         return back();
@@ -97,15 +94,20 @@ class UserController extends Controller
     public function delete(User $user, Request $request)
     {
         try {
-            $user->mobiles()->delete();
+            $super = Role::where('name', 'superadmin')->first()->id;
+            if ($user->role_id == $super and Auth::user()->id !== $super) {
+                $msg = "Admin can't be deleted";
+                Session::flash('error', $msg);
+                return back();
+            }
             $user->delete();
             $msg = 'Admin deleted successfully';
             Session::flash('msg', $msg);
-        } catch (Exception $e) {
+        } catch (\Throwable $e) {
             $msg = "Admin can't be deleted";
             Session::flash('error', $msg);
         }
-        return  back();
+        return back();
     }
     public function removeVerify($id, Request $request)
     {

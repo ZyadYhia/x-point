@@ -83,13 +83,7 @@
                                                                 <td>{{ $loop->iteration }}</td>
                                                                 <td>{{ $invoice->user->first_name . ' ' . $invoice->user->last_name }}
                                                                 </td>
-                                                                @php
-                                                                    $mobile = '';
-                                                                    foreach ($invoice->user->mobiles as $mobilenum) {
-                                                                        $mobile = $mobilenum;
-                                                                    }
-                                                                @endphp
-                                                                <td>{{ $mobile->name }}</td>
+                                                                <td>{{ $invoice->user->mobile }}</td>
                                                                 <td>{{ $invoice->name }}</td>
                                                                 @php
                                                                     $cost = 0;

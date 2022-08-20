@@ -28,6 +28,7 @@ class UserSeeder extends Seeder
             'points' => 0,
             'role_id' => $superadmin,
             'email' => 'zeyad.yhia95@gmail.com',
+            'mobile' => '01002401163',
             'email_verified_at' => now(),
             'password' => Hash::make('ImZyadYhia.96'),
         ]);
@@ -38,6 +39,7 @@ class UserSeeder extends Seeder
             'points' => 0,
             'role_id' => $admin,
             'email' => 'yasser.seleem@gmail.com',
+            'mobile' => '01010053638',
             'email_verified_at' => now(),
             'password' => Hash::make('123456789'),
         ]);
@@ -48,6 +50,7 @@ class UserSeeder extends Seeder
             'points' => 0,
             'role_id' => $counter,
             'email' => 'hag.adel@gmail.com',
+            'mobile' => '',
             'email_verified_at' => now(),
             'password' => Hash::make('123456789'),
         ]);
@@ -58,6 +61,7 @@ class UserSeeder extends Seeder
             'points' => 0,
             'role_id' => $client,
             'email' => 'ahmed.atta@gmail.com',
+            'mobile' => '01552031437',
             'email_verified_at' => now(),
             'password' => Hash::make('123456789'),
         ]);
@@ -68,6 +72,7 @@ class UserSeeder extends Seeder
             'points' => 0,
             'role_id' => $counter,
             'email' => 'counter@xpoint.com',
+            'mobile' => '',
             'email_verified_at' => now(),
             'password' => Hash::make('123456789'),
         ]);

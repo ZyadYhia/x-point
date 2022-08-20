@@ -18,7 +18,7 @@ class ContactSeeder extends Seeder
         Contact::create([
             'mobile' => '01555048058',
             'VF_Cash' => '01010053638',
-            'email' => 'contact@x-points.com',
+            'email' => 'info@xpoint.epic-techs.com',
             'fb' => 'https://www.facebook.com/X-point-104897912287633',
             'linktr' => 'https://linktr.ee/xpoint_damietta',
             'youtube' => '',

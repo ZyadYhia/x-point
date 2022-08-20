@@ -148,12 +148,51 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 </a>
                             </li>
                         @endif
+                        @if (Auth::user()->role->name == 'superadmin' or Auth::user()->role->name == 'admin')
+                            <li class="nav-item">
+                                <a href="{{ url('dashboard/clients') }}"
+                                    class="nav-link @if (Route::is('dashboard_clients')) active  @else @endif">
+                                    <i class="nav-icon fas fa-users"></i>
+                                    <p>
+                                        Clients
+                                    </p>
+                                </a>
+                            </li>
+                        @endif
                     </ul>
                 </nav>
                 <!-- /.sidebar-menu -->
             </div>
             <!-- /.sidebar -->
         </aside>
+        <template id="remove-template">
+            <swal-title>
+                Delete!!
+            </swal-title>
+            <swal-icon type="warning" color="red"></swal-icon>
+            <swal-button type="confirm" color="red">
+                Delete
+            </swal-button>
+            <swal-button type="cancel">
+                Cancel
+            </swal-button>
+            <swal-param name="allowEscapeKey" value="false" />
+            <swal-param name="customClass" value='{ "popup": "my-popup" }' />
+        </template>
+        <template id="demote-template">
+            <swal-title>
+                You're gonna lose your privileges as a <strong style="font-weight: 600;"> Super Admin </strong>
+            </swal-title>
+            <swal-icon type="warning" color="red"></swal-icon>
+            <swal-button type="confirm" color="red">
+                Demote
+            </swal-button>
+            <swal-button type="cancel">
+                Cancel
+            </swal-button>
+            <swal-param name="allowEscapeKey" value="false" />
+            <swal-param name="customClass" value='{ "popup": "my-popup" }' />
+        </template>
         @include('dashboard.includes.messages')
         @include('dashboard.includes.errors')
         {{-- <button type="button" onclick="cli()" class="btn btn-success swalDefaultSuccess">
@@ -209,6 +248,38 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 toast.addEventListener('mouseenter', Swal.stopTimer)
                 toast.addEventListener('mouseleave', Swal.resumeTimer)
             }
+        });
+        var remove = Swal.mixin({
+            toast: true,
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+        });
+        $('.del').on('click', function(e) {
+            e.preventDefault();
+            let href = $(this).attr('href');
+            remove.fire({
+                template: '#remove-template'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location = href
+                }
+            })
+        });
+        $('.dem').on('click', function(e) {
+            e.preventDefault();
+            let href = $(this).attr('href');
+            remove.fire({
+                template: '#demote-template'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location = href
+                }
+            })
         });
 
         function cli() {

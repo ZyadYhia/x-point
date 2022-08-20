@@ -45,6 +45,7 @@
                             <input class="input" type="text" name="first_name" placeholder="{{__('web.first_name')}}">
                             <input class="input" type="text" name="last_name" placeholder="{{__('web.last_name')}}">
                             <input class="input" type="text" name="user_name" placeholder="{{__('web.user_name')}}">
+                            <input class="input" type="text" name="mobile" placeholder="{{__('web.mobile')}}">
                             <input class="input" type="email" name="email" placeholder="{{__('web.email')}}">
                             <input class="input" type="password" name="password" placeholder="{{__('web.password')}}">
                             <input class="input" type="password" name="password_confirmation"

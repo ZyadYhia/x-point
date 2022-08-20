@@ -85,7 +85,7 @@ class RoomController extends Controller
             $room->delete();
             $msg = $roomName . ' deleted successfully';
             Session::flash('msg', $msg);
-        } catch (Exception $e) {
+        } catch (\Throwable $e) {
             $msg = "row can't br deleted";
             Session::flash('error', $msg);
         }

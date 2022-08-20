@@ -77,13 +77,7 @@
                                                                 <td>{{ $loop->iteration }}</td>
                                                                 <td>{{ $invoice->user->first_name . ' ' . $invoice->user->last_name }}
                                                                 </td>
-                                                                @php
-                                                                    $mobile = '';
-                                                                    foreach ($invoice->user->mobiles as $mobilenum) {
-                                                                        $mobile = $mobilenum;
-                                                                    }
-                                                                @endphp
-                                                                <td>{{ $mobile->name }}</td>
+                                                                <td>{{ $invoice->user->mobile }}</td>
                                                                 <td>{{ $invoice->name }}</td>
                                                                 @php
                                                                     $cost = 0;
@@ -155,13 +149,7 @@
                                                                 <td>{{ $loop->iteration }}</td>
                                                                 <td>{{ $invoice->user->first_name . ' ' . $invoice->user->last_name }}
                                                                 </td>
-                                                                @php
-                                                                    $mobile = '';
-                                                                    foreach ($invoice->user->mobiles as $mobilenum) {
-                                                                        $mobile = $mobilenum;
-                                                                    }
-                                                                @endphp
-                                                                <td>{{ $mobile->name }}</td>
+                                                                <td>{{ $invoice->user->mobile }}</td>
                                                                 <td>{{ $invoice->name }}</td>
                                                                 @php
                                                                     $cost = 0;
@@ -218,13 +206,7 @@
                                                                 <td>{{ $loop->iteration }}</td>
                                                                 <td>{{ $invoice->user->first_name . ' ' . $invoice->user->last_name }}
                                                                 </td>
-                                                                @php
-                                                                    $mobile = '';
-                                                                    foreach ($invoice->user->mobiles as $mobilenum) {
-                                                                        $mobile = $mobilenum;
-                                                                    }
-                                                                @endphp
-                                                                <td>{{ $mobile->name }}</td>
+                                                                <td>{{ $invoice->user->mobile }}</td>
                                                                 <td>{{ $invoice->name }}</td>
                                                                 @php
                                                                     $cost = 0;
@@ -310,9 +292,9 @@
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <td><span id="view-cat-form-room"></span></td>
-                                                <td><span id="view-cat-form-time"></span></td>
-                                                <td><span id="view-cat-form-cost"></span></td>
+                                                <td><span id="view-invoice-form-room"></span></td>
+                                                <td><span id="view-invoice-form-time"></span></td>
+                                                <td><span id="view-invoice-form-cost"></span></td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -361,57 +343,35 @@
         </div>
     </div>
 @endsection
+@include('dashboard.partials.JS.invoiceToggle')
 @section('scripts')
     <script>
-        let old_cost = 1;
-        let new_cost = 1;
-        let points = 1;
-        let available_points = 1;
-        let min_cost_invoice = 0;
         $('.view-btn').click(function() {
             let id_invoice = $(this).attr('data-invoice-id');
             let room_invoice = $(this).attr('data-room');
             let time_invoice = $(this).attr('data-time');
             let cost_invoice = $(this).attr('data-cost');
-            min_cost_invoice = $(this).attr('data-min-cost');
+            min_cost_invoice = Math.round(($(this).attr('data-min-cost') / 60) * time_invoice);
             let points_invoice = $(this).attr('data-points');
             old_cost = cost_invoice;
             points = points_invoice;
             console.log(room_invoice, time_invoice, cost_invoice, points_invoice);
-            $('#view-cat-form-room').html(room_invoice)
-            $('#view-cat-form-time').html(time_invoice)
-            $('#view-cat-form-cost').html(cost_invoice)
-            $('#view-cat-form-points').val(points_invoice)
-            $('#view-cat-form-invoice-id').val(points_invoice)
+            $('#view-invoice-form-room').html(room_invoice)
+            $('#view-invoice-form-time').html(time_invoice)
+            $('#view-invoice-form-cost').html(cost_invoice)
+            //$('#view-invoice-form-points').val(points_invoice)
+            // $('#view-invoice-form-invoice-id').val(points_invoice)
             $('#invoice_id').val(id_invoice)
             let room = $(this).attr('data-room');
             $("#view-modal-header").html(room_invoice);
-            available_points = old_cost - min_cost_invoice;
+            if ((old_cost - points) < min_cost_invoice) {
+                available_points = old_cost - min_cost_invoice;
+            } else {
+                available_points = points;
+            }
+            // available_points = old_cost - min_cost_invoice;
             $("#pointsWalletLabel").html(`${available_points} points to use from ${points} points`);
             validate();
         });
-
-        function validate() {
-            let pointsWallet = document.getElementById('pointsWallet');
-            if (pointsWallet.checked) {
-                if (old_cost <= min_cost_invoice) {
-                    new_cost = old_cost;
-                } else {
-                    new_cost = old_cost - points;
-                }
-
-                if (new_cost < min_cost_invoice) {
-                    available_points = old_cost - min_cost_invoice;
-                    new_cost = old_cost - available_points;
-                    $("#pointsWalletLabel").html(`${available_points} points used from ${points} points`);
-                }
-                $('#view-cat-form-cost').html(new_cost)
-                $('#points').val(available_points)
-            } else {
-                $('#points').val(0)
-                $('#view-cat-form-cost').html(old_cost)
-                $("#pointsWalletLabel").html(`${available_points} points to use from ${points} points`);
-            }
-        }
     </script>
 @endsection

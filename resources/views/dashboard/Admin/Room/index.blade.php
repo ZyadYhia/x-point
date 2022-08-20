@@ -104,7 +104,7 @@
                                                                     </button>
 
                                                                     <a href="{{ url("dashboard/rooms/control/delete/$room->id") }}"
-                                                                        class="btn btn-danger btn-sm"><i
+                                                                        class="btn btn-danger btn-sm del"><i
                                                                             class="fas fa-trash"></i></a>
                                                                 </td>
                                                             </tr>

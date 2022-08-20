@@ -40,8 +40,9 @@
             <div class="navbar-header">
                 <!-- Logo -->
                 <div class="navbar-brand">
-                    <a class="logo" href="index.html">
-                        <img src="{{ asset('web/img/logo.png') }}" alt="logo">
+                    <a class="logo" href="{{ url('') }}">
+                        <img src="{{ asset('web/img/LOGO_XPOINT.jpg') }}" alt="logo">
+                        {{-- <img src="{{ asset('web/img/logo.png') }}" alt="logo"> --}}
                     </a>
                 </div>
                 <!-- /Logo -->
@@ -101,8 +102,8 @@
             <div class="row">
                 <div class="col-md-10 col-md-offset-1 text-center">
                     <ul class="hero-area-tree">
-                        <li><a href="index.html">Home</a></li>
-                        <li>Contact</li>
+                        <li><a href="{{ url('') }}">Home</a></li>
+                        {{-- <li>Contact</li> --}}
                     </ul>
                     <h1 class="white-text">Get In Touch</h1>
 
